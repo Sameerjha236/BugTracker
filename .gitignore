@@ -1,0 +1,30 @@
+# ========================
+# Node / React
+# ========================
+client/node_modules/
+client/build/
+client/.env
+
+# ========================
+# Java / Spring Boot
+# ========================
+server/target/
+server/*.iml
+server/.classpath
+server/.project
+server/.settings/
+
+# ========================
+# IDE / OS files
+# ========================
+.vscode/
+.idea/
+*.DS_Store
+*.log
+
+# ========================
+# Misc
+# ========================
+*.jar
+*.war
+*.class

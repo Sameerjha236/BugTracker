@@ -1,0 +1,13 @@
+# Normalize shell scripts and text files
+* text=auto
+
+# Node / React
+client/* text eol=lf
+
+# Java / Spring Boot
+server/* text eol=lf
+
+# Keep binary files unchanged
+*.jar binary
+*.png binary
+*.jpg binary
