@@ -1,6 +1,7 @@
 package com.bugTracker.server.repository;
 
 import com.bugTracker.server.model.UserModel;
+import com.bugTracker.server.utils.PasswordUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -21,6 +22,6 @@ public class UserRepository {
 
     public boolean checkCredentials(String email, String password) {
         String actualPassword = UserData.get(email).getPassword();
-        return  actualPassword.equals(password);
+        return PasswordUtils.verifyPassword( password, actualPassword);
     }
 }
