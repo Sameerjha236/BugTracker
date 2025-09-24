@@ -11,10 +11,10 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/user")
-public class MainController {
+public class UserController {
     private final UserService userManagement;
 
-    public MainController(UserService userManagement) {
+    public UserController(UserService userManagement) {
         this.userManagement = userManagement;
     }
 
@@ -41,7 +41,7 @@ public class MainController {
         if(!status) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-        userManagement.createUser(request.getName(), request.getEmail(), request.getPassword(), request.getRole());
+        userManagement.createUser(request.getName(), request.getEmail(), request.getPassword());
         response.put("message", "User added successfully");
         response.put("status",true);
         return  ResponseEntity.status(HttpStatus.CREATED).body(response);

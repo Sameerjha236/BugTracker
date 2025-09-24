@@ -1,26 +1,26 @@
 package com.bugTracker.server.model;
 
+import java.util.UUID;
+
 public class UserModel {
-    private String id;
+    private String userId;
     private String name;
     private String email;
     private String password;
-    private String role;
 
-    public UserModel(String id, String name, String email, String password, String role) {
-        this.id = id;
+    public UserModel(String name, String email, String password) {
+        this.userId = UUID.randomUUID().toString();
         this.name = name;
         this.email = email;
         this.password = password;
-        this.role = role;
     }
 
     public String getId() {
-        return id;
+        return userId;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -45,13 +45,5 @@ public class UserModel {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 }

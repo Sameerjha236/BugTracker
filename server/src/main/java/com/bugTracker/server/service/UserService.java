@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -38,11 +37,9 @@ public class UserService {
         return response;
     }
 
-    public void createUser(String name, String email, String password, String role) {
-        UUID uuid = UUID.randomUUID();
-        String id = uuid.toString();
+    public void createUser(String name, String email, String password) {
         String hashPassword = PasswordUtils.hashPassword(password);
-        UserModel user = new UserModel(id, name, email, hashPassword, role);
+        UserModel user = new UserModel(name, email, hashPassword);
         UserRepo.addUser(user);
     }
 
@@ -68,6 +65,6 @@ public class UserService {
     }
 
     public void addDummyUser() {
-        createUser("sameer", "sam@gmail.com", "1234", "admin");
+        createUser("sameer", "sam@gmail.com", "1234");
     }
 }
