@@ -4,13 +4,11 @@ public class SignupRequest {
     private String email;
     private String password;
     private String name;
-    private String role;
 
-    public SignupRequest(String email, String password, String name, String role) {
+    public SignupRequest(String email, String password, String name) {
         this.email = email;
         this.password = password;
         this.name = name;
-        this.role = role;
     }
 
     public String getEmail() {
@@ -35,13 +33,5 @@ public class SignupRequest {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
     }
 }

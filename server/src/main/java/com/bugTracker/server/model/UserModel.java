@@ -1,12 +1,32 @@
 package com.bugTracker.server.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.util.UUID;
 
+@Entity
+@Table(name = "users")
 public class UserModel {
+
+    @Id
+    @Column(name = "userId")
     private String userId;
+
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
     private String password;
+
+    public UserModel() {
+
+    }
 
     public UserModel(String name, String email, String password) {
         this.userId = UUID.randomUUID().toString();
@@ -15,11 +35,12 @@ public class UserModel {
         this.password = password;
     }
 
-    public String getId() {
+
+    public String getUserId() {
         return userId;
     }
 
-    public void setId(String userId) {
+    public void setUserId(String userId) {
         this.userId = userId;
     }
 

@@ -46,10 +46,4 @@ public class UserController {
         response.put("status",true);
         return  ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
-
-    @GetMapping("/dummy")
-    public String addDummyUser() {
-        userManagement.addDummyUser();
-        return "User added";
-    }
 }
