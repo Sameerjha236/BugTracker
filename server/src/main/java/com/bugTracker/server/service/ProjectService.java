@@ -4,10 +4,13 @@ import com.bugTracker.server.model.ProjectModel;
 import com.bugTracker.server.repository.ProjectRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ProjectService {
+
     private final ProjectRepository projectRepository;
 
     public ProjectService(ProjectRepository projectRepository) {
@@ -15,15 +18,15 @@ public class ProjectService {
     }
 
     public void createProject(String name, String description, String createdBy) {
-        ProjectModel project = new ProjectModel(name, description,createdBy);
-        projectRepository.addProject(project);
+        ProjectModel project = new ProjectModel(name, description, createdBy);
+        projectRepository.save(project);
     }
 
-    public ProjectModel getProject(String projectId) {
-        return projectRepository.getProject(projectId);
+    public Optional<ProjectModel> getProject(String projectId) {
+        return projectRepository.findById(projectId);
     }
 
-    public Map<String, ProjectModel> getAllProjects() {
-        return projectRepository.getAllProjects();
+    public List<ProjectModel> getAllProjects() {
+        return projectRepository.findAll();
     }
 }

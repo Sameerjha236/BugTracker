@@ -1,11 +1,13 @@
 package com.bugTracker.server.controllers;
 
 import com.bugTracker.server.dto.CreateProjectRequest;
+import com.bugTracker.server.model.ProjectModel;
 import com.bugTracker.server.service.ProjectService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/project")
@@ -21,4 +23,17 @@ public class ProjectController {
         projectManagement.createProject(request.getName(), request.getDescription(), request.getCreatedBy());
         return "Project has been created";
     }
+
+    @GetMapping("/{projectId}")
+    public ResponseEntity<?> getProject(@PathVariable String projectId) {
+        Optional<ProjectModel> projectOpt = projectManagement.getProject(projectId);
+
+        if (projectOpt.isPresent()) {
+            return ResponseEntity.ok(projectOpt.get());
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Project with ID " + projectId + " not found");
+        }
+    }
+
 }

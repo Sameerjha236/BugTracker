@@ -1,6 +1,5 @@
 package com.bugTracker.server.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -12,16 +11,12 @@ import java.util.UUID;
 public class UserModel {
 
     @Id
-    @Column(name = "userId")
     private String userId;
 
-    @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
     private String password;
 
     public UserModel() {

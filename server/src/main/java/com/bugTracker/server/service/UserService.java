@@ -47,7 +47,6 @@ public class UserService {
     // ------------------- SIGNUP -------------------
     public Map<String, Object> checkCredentials(String email, String name, String password) {
         Map<String, Object> response = new HashMap<>();
-
         if (userRepo.existsByEmail(email)) {
             response.put("message", "Email id already exists");
             response.put("status", false);

@@ -1,15 +1,29 @@
 package com.bugTracker.server.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
 import java.util.UUID;
 
+@Entity
+@Table(name = "projects")
 public class ProjectModel {
-    String projectId;
-    String name;
-    String description;
-    String createdBy;
+    @Id
+    @Column(name = "projectid")
+    private String projectId;
+
+    @Column(name = "createdby")   // <-- match Postgres
+    private String createdBy;// same as Users
+
+    private String name;
+    private String description;
+
+    public ProjectModel() {}
 
     public ProjectModel(String name, String description, String createdBy) {
-        this.projectId = UUID.randomUUID().toString();;
+        this.projectId = UUID.randomUUID().toString();
         this.name = name;
         this.description = description;
         this.createdBy = createdBy;
