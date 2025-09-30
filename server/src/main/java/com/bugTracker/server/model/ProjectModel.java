@@ -11,30 +11,28 @@ import java.util.UUID;
 @Table(name = "projects")
 public class ProjectModel {
     @Id
-    @Column(name = "projectid")
-    private String projectId;
+    private String project_id;
 
-    @Column(name = "createdby")   // <-- match Postgres
-    private String createdBy;// same as Users
+    private String created_by;// same as Users
 
     private String name;
     private String description;
 
     public ProjectModel() {}
 
-    public ProjectModel(String name, String description, String createdBy) {
-        this.projectId = UUID.randomUUID().toString();
+    public ProjectModel(String name, String description, String created_by) {
+        this.project_id = UUID.randomUUID().toString();
         this.name = name;
         this.description = description;
-        this.createdBy = createdBy;
+        this.created_by = created_by;
     }
 
     public String getProjectId() {
-        return projectId;
+        return project_id;
     }
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
+    public void setProjectId(String project_id) {
+        this.project_id = project_id;
     }
 
     public String getName() {
@@ -54,10 +52,10 @@ public class ProjectModel {
     }
 
     public String getCreatedBy() {
-        return createdBy;
+        return created_by;
     }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public void setCreatedBy(String created_by) {
+        this.created_by = created_by;
     }
 }

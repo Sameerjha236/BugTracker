@@ -11,7 +11,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())   // modern way to disable CSRF
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/user/login", "/api/user/signup", "/api/user/dummy", "/api/user/hello", "/api/project/createProject").permitAll()
+                        .requestMatchers("/api/user/login", "/api/user/signup", "/api/user/deleteUser", "/api/user/hello", "/api/project/createProject","/api/project/addUser","/api/project/updateUserRole","/api/project/removeUser").permitAll()
                         .anyRequest().authenticated()
                 );
         return http.build();

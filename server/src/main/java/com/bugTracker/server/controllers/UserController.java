@@ -46,4 +46,10 @@ public class UserController {
         response.put("status",true);
         return  ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @PostMapping("/deleteUser")
+    public  ResponseEntity<String> deleteUser(@RequestBody String user_id) {
+        userManagement.deleteUser(user_id);
+        return ResponseEntity.status(HttpStatus.OK).body("user deleted successfully");
+    }
 }

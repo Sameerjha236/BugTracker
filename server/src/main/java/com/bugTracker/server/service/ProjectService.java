@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class ProjectService {
@@ -17,9 +16,10 @@ public class ProjectService {
         this.projectRepository = projectRepository;
     }
 
-    public void createProject(String name, String description, String createdBy) {
+    public String createProject(String name, String description, String createdBy) {
         ProjectModel project = new ProjectModel(name, description, createdBy);
         projectRepository.save(project);
+        return project.getProjectId();
     }
 
     public Optional<ProjectModel> getProject(String projectId) {
