@@ -1,7 +1,7 @@
 package com.bugTracker.server.controllers;
 
-import com.bugTracker.server.dto.LoginRequest;
-import com.bugTracker.server.dto.SignupRequest;
+import com.bugTracker.server.dto.Logindto;
+import com.bugTracker.server.dto.Signupdto;
 import com.bugTracker.server.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,20 +12,15 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
-    private final UserService userManagement;
+    private final UserService userService;
 
-    public UserController(UserService userManagement) {
-        this.userManagement = userManagement;
-    }
-
-    @GetMapping("/hello")
-    public String printHello() {
-        return "Hello";
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String,Object>> login(@RequestBody LoginRequest request) {
-        Map<String, Object> response = userManagement.validateCredentials(request.getEmail(),request.getPassword());
+    public ResponseEntity<Map<String,Object>> login(@RequestBody Logindto request) {
+        Map<String, Object> response = userService.validateCredentials(request.getEmail(),request.getPassword());
         boolean status = (Boolean) response.get("status");
 
         if(status) {
@@ -35,21 +30,15 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<Map<String,Object>>  signup(@RequestBody SignupRequest request) {
-        Map<String, Object> response = userManagement.checkCredentials( request.getEmail() ,request.getName(), request.getPassword());
+    public ResponseEntity<Map<String,Object>>  signup(@RequestBody Signupdto request) {
+        Map<String, Object> response = userService.checkCredentials( request.getEmail() ,request.getName(), request.getPassword());
         boolean status = (Boolean) response.get("status");
         if(!status) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
-        userManagement.createUser(request.getName(), request.getEmail(), request.getPassword());
+        userService.createUser(request.getName(), request.getEmail(), request.getPassword());
         response.put("message", "User added successfully");
         response.put("status",true);
         return  ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
-    @PostMapping("/deleteUser")
-    public  ResponseEntity<String> deleteUser(@RequestBody String user_id) {
-        userManagement.deleteUser(user_id);
-        return ResponseEntity.status(HttpStatus.OK).body("user deleted successfully");
     }
 }

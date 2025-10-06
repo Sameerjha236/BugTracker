@@ -1,14 +1,14 @@
 package com.bugTracker.server.dto;
 
-public class CreateProjectRequest {
+public class CreateProjectdto {
     String name;
     String description;
-    String createdBy;
+    String owner;
 
-    public CreateProjectRequest(String name, String description, String createdBy) {
+    public CreateProjectdto(String name, String description, String createdBy) {
         this.name = name;
         this.description = description;
-        this.createdBy = createdBy;
+        this.owner = createdBy;
     }
 
     public String getName() {
@@ -27,11 +27,11 @@ public class CreateProjectRequest {
         this.description = description;
     }
 
-    public String getCreatedBy() {
-        return createdBy;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }

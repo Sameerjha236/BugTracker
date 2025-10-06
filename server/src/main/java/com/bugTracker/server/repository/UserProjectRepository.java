@@ -1,6 +1,6 @@
 package com.bugTracker.server.repository;
 
-import com.bugTracker.server.model.UserProjectModel;
+import com.bugTracker.server.dao.UserProjectModel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Optional;
 

@@ -1,6 +1,5 @@
-package com.bugTracker.server.model;
+package com.bugTracker.server.dao;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;

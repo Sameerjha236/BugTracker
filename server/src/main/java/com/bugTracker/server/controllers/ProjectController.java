@@ -1,64 +1,96 @@
 package com.bugTracker.server.controllers;
 
-import com.bugTracker.server.dto.AddUsersToProject;
-import com.bugTracker.server.dto.CreateProjectRequest;
-import com.bugTracker.server.dto.UserProjectDetails;
-import com.bugTracker.server.model.ProjectModel;
+import com.bugTracker.server.dto.AddUsersToProjectdto;
+import com.bugTracker.server.dto.CreateProjectdto;
+import com.bugTracker.server.dao.ProjectModel;
 import com.bugTracker.server.service.ProjectService;
 import com.bugTracker.server.service.UserProjectService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/project")
 public class ProjectController {
-    private final ProjectService projectManagement;
+
+    private final ProjectService projectService;
     private final UserProjectService userProjectService;
 
-    public ProjectController(ProjectService projectManagement, UserProjectService userProjectService) {
-        this.projectManagement = projectManagement;
+    public ProjectController(ProjectService projectService, UserProjectService userProjectService) {
+        this.projectService = projectService;
         this.userProjectService = userProjectService;
     }
 
-    @PostMapping("/createProject")
-    public String createProject(@RequestBody CreateProjectRequest request) {
-        String project_id = projectManagement.createProject(request.getName(), request.getDescription(), request.getCreatedBy());
-        userProjectService.addRelation(request.getCreatedBy(), project_id, "Admin");
-        return "Project has been created";
-    }
-
-    @PostMapping("/addUser")
-    public String addUser(@RequestBody AddUsersToProject request) {
-        userProjectService.addRelation(request.getUser_id(), request.getProject_id(), request.getRole());
-        return "User added to the project";
-    }
-
-    @PostMapping("/updateUserRole")
-    public String updateRole(@RequestBody AddUsersToProject request) {
-        userProjectService.updateRole(request.getUser_id(),request.getProject_id(),request.getRole());
-        return "Role updated";
-    }
-
-    @PostMapping("/removeUser")
-    public String removeUser(@RequestBody UserProjectDetails request) {
-        userProjectService.removeUserFromProject(request.getUser_id(),request.getProject_id());
-        return "User removed from project";
+    @PostMapping("/create")
+    public ResponseEntity<String> createProject(@RequestBody CreateProjectdto request) {
+        String projectId = projectService.createProject(
+                request.getName(),
+                request.getDescription(),
+                request.getOwner()
+        );
+        userProjectService.addRelation(request.getOwner(), projectId, "admin");
+        return ResponseEntity.ok("Project has been created with ID: " + projectId);
     }
 
     @GetMapping("/{projectId}")
     public ResponseEntity<?> getProject(@PathVariable String projectId) {
-        Optional<ProjectModel> projectOpt = projectManagement.getProject(projectId);
+        Optional<ProjectModel> projectOpt = projectService.getProject(projectId);
 
-        if (projectOpt.isPresent()) {
-            return ResponseEntity.ok(projectOpt.get());
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Project with ID " + projectId + " not found");
-        }
+        return projectOpt.<ResponseEntity<?>>map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("Project with ID " + projectId + " not found"));
     }
 
+    @PatchMapping("/update/{projectId}")
+    public ResponseEntity<String> updateProject(
+            @PathVariable String projectId,
+            @RequestBody Map<String, Object> request) {
+
+        boolean updated = projectService.updateProject(projectId, request);
+        if (updated)
+            return ResponseEntity.ok("Project updated successfully");
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Project with ID " + projectId + " not found");
+    }
+
+    @DeleteMapping("/{projectId}")
+    public ResponseEntity<String> deleteProject(@PathVariable String projectId) {
+        boolean deleted = projectService.deleteProject(projectId);
+        if (deleted)
+            return ResponseEntity.ok("Project deleted successfully");
+        else
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Project with ID " + projectId + " not found");
+    }
+
+    @PostMapping("/{projectId}/addUser")
+    public ResponseEntity<String> addUser(
+            @PathVariable String projectId,
+            @RequestBody AddUsersToProjectdto request) {
+
+        userProjectService.addRelation(request.getUser_id(), projectId, request.getRole());
+        return ResponseEntity.ok("User added to the project");
+    }
+
+    @PatchMapping("/{projectId}/updateUserRole")
+    public ResponseEntity<String> updateUserRole(
+            @PathVariable String projectId,
+            @RequestBody AddUsersToProjectdto request) {
+
+        userProjectService.updateRole(request.getUser_id(), projectId, request.getRole());
+        return ResponseEntity.ok("User role updated successfully");
+    }
+
+    @DeleteMapping("/{projectId}/removeUser")
+    public ResponseEntity<String> removeUser(
+            @PathVariable String projectId,
+            @RequestBody String userId) {
+
+        userProjectService.removeUserFromProject(userId, projectId);
+        return ResponseEntity.ok("User removed from project");
+    }
 }

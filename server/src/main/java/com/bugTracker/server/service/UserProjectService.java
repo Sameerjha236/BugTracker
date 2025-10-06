@@ -1,8 +1,7 @@
 package com.bugTracker.server.service;
 
-import com.bugTracker.server.model.UserProjectModel;
+import com.bugTracker.server.dao.UserProjectModel;
 import com.bugTracker.server.repository.UserProjectRepository;
-import com.bugTracker.server.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

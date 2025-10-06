@@ -1,12 +1,14 @@
 package com.bugTracker.server.dto;
 
-public class LoginRequest {
+public class Signupdto {
     private String email;
     private String password;
+    private String name;
 
-    public LoginRequest(String email, String password) {
+    public Signupdto(String email, String password, String name) {
         this.email = email;
         this.password = password;
+        this.name = name;
     }
 
     public String getEmail() {
@@ -23,5 +25,13 @@ public class LoginRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

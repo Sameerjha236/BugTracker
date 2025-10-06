@@ -1,6 +1,6 @@
 package com.bugTracker.server.service;
 
-import com.bugTracker.server.model.UserModel;
+import com.bugTracker.server.dao.UserModel;
 import com.bugTracker.server.repository.UserRepository;
 import com.bugTracker.server.utils.PasswordUtils;
 import com.bugTracker.server.utils.ValidationUtils;
@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class UserService {

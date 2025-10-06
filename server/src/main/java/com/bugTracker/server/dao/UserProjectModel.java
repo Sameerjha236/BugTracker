@@ -1,4 +1,4 @@
-package com.bugTracker.server.model;
+package com.bugTracker.server.dao;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,13 +12,13 @@ import java.util.UUID;
 public class UserProjectModel {
 
     @Id
-    @Column(name = "user_project_id")
+//    @Column(name = "user_project_id")
     private String userProjectId;
 
-    @Column(name = "user_id")
+//    @Column(name = "user_id")
     private String userId;
 
-    @Column(name = "project_id")
+//    @Column(name = "project_id")
     private String projectId;
 
     @Column(nullable = false)

@@ -1,6 +1,5 @@
-package com.bugTracker.server.model;
+package com.bugTracker.server.dao;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -11,28 +10,28 @@ import java.util.UUID;
 @Table(name = "projects")
 public class ProjectModel {
     @Id
-    private String project_id;
+    private String projectId;
 
-    private String created_by;// same as Users
+    private String owner;
 
     private String name;
     private String description;
 
     public ProjectModel() {}
 
-    public ProjectModel(String name, String description, String created_by) {
-        this.project_id = UUID.randomUUID().toString();
+    public ProjectModel(String name, String description, String owner) {
+        this.projectId = UUID.randomUUID().toString();
         this.name = name;
         this.description = description;
-        this.created_by = created_by;
+        this.owner = owner;
     }
 
     public String getProjectId() {
-        return project_id;
+        return projectId;
     }
 
-    public void setProjectId(String project_id) {
-        this.project_id = project_id;
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 
     public String getName() {
@@ -51,11 +50,11 @@ public class ProjectModel {
         this.description = description;
     }
 
-    public String getCreatedBy() {
-        return created_by;
+    public String getOwner() {
+        return owner;
     }
 
-    public void setCreatedBy(String created_by) {
-        this.created_by = created_by;
+    public void setOwner(String owner) {
+        this.owner = owner;
     }
 }
