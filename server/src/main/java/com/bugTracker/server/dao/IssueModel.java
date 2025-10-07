@@ -1,8 +1,16 @@
-package com.bugTracker.server.model;
+package com.bugTracker.server.dao;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Entity
+@Table(name = "issues")
 public class IssueModel {
+    @Id
     String issueId;
     String projectId;
     String title;
@@ -10,17 +18,20 @@ public class IssueModel {
     String status;
     String priority;
     String assigneeId;
-    String createdAt;
+    LocalDateTime createdAt;
 
-    public IssueModel(String projectId, String title, String description, String status, String priority, String assigneeId, String createdAt) {
+    public IssueModel() {
+    }
+
+    public IssueModel(String assigneeId, String priority, String status, String description, String title, String projectId) {
         this.issueId = UUID.randomUUID().toString();
-        this.projectId = projectId;
-        this.title = title;
-        this.description = description;
-        this.status = status;
-        this.priority = priority;
         this.assigneeId = assigneeId;
-        this.createdAt = createdAt;
+        this.priority = priority;
+        this.status = status;
+        this.description = description;
+        this.title = title;
+        this.projectId = projectId;
+        this.createdAt = LocalDateTime.now();
     }
 
     public String getIssueId() {
@@ -79,11 +90,11 @@ public class IssueModel {
         this.assigneeId = assigneeId;
     }
 
-    public String getCreatedAt() {
+    public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(String createdAt) {
+    public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
 }

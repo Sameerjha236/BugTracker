@@ -17,7 +17,8 @@ public class SecurityConfig {
                                 "/api/user/signup",
                                 "/api/user/deleteUser",
                                 "/api/project/**",
-                                "/api/issue/**"
+                                "/api/issue/**",
+                                "/api/comment/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 );

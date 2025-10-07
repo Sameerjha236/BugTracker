@@ -1,13 +1,24 @@
-package com.bugTracker.server.model;
+package com.bugTracker.server.dao;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.util.UUID;
 
+@Entity
+@Table(name = "comments")
 public class CommentModel {
+    @Id
     String commentId;
+
     String issueId;
     String userId;
     String text;
     String createdAt;
+
+    public CommentModel() {
+    }
 
     public CommentModel(String issueId, String userId, String text, String createdAt) {
         this.commentId = UUID.randomUUID().toString();
