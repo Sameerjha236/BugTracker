@@ -40,8 +40,13 @@ public class UserService {
 
         response.put("message", "Successful");
         response.put("status", true);
+        response.put("email", user.getEmail());
+        response.put("name", user.getName());
+        response.put("userId", user.getUserId());
+
         return response;
     }
+
 
     // ------------------- SIGNUP -------------------
     public Map<String, Object> checkCredentials(String email, String name, String password) {

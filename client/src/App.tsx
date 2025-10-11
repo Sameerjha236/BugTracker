@@ -1,9 +1,14 @@
+import { Link, Outlet } from "react-router-dom";
 import "./App.css";
 
 function App() {
   return (
     <>
-      <h1>Hello world</h1>
+      <nav>
+        <Link to="/">Dashboard</Link> | <Link to="/project/123">Project</Link> |
+        <Link to="/login">Login</Link>
+      </nav>
+      <Outlet />
     </>
   );
 }

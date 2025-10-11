@@ -1,5 +1,11 @@
 package com.bugTracker.server.dto;
 
+//{
+//        "email":"s@gmail.com",
+//        "password":"Sameer@123",
+//        "name":"sameer"
+//        }
+
 public class Signupdto {
     private String email;
     private String password;

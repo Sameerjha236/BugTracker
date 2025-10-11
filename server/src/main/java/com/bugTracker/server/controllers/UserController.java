@@ -29,8 +29,8 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
     }
 
-    @PostMapping("/signup")
-    public ResponseEntity<Map<String,Object>>  signup(@RequestBody Signupdto request) {
+    @PostMapping("/register")
+    public ResponseEntity<Map<String,Object>>  register(@RequestBody Signupdto request) {
         Map<String, Object> response = userService.checkCredentials( request.getEmail() ,request.getName(), request.getPassword());
         boolean status = (Boolean) response.get("status");
         if(!status) {
@@ -39,6 +39,8 @@ public class UserController {
         userService.createUser(request.getName(), request.getEmail(), request.getPassword());
         response.put("message", "User added successfully");
         response.put("status",true);
+        response.put("email", request.getEmail());
+        response.put("")
         return  ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

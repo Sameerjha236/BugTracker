@@ -1,0 +1,45 @@
+/* Page layout */
+.authLayout {
+  width: 100%;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.authCard {
+  width: 35%;
+  padding: 32px 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.authTabs {
+  margin-bottom: 24px;
+  border-bottom: 1px solid #eee;
+}
+
+.authTab {
+  cursor: pointer;
+  color: #888;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  padding-bottom: 0.5em;
+}
+
+.authTab.active {
+  color: #1677ff;
+  border-bottom: 2px solid #1677ff;
+}
+
+.authForm {
+  width: 100%;
+}
+
+.authFormField {
+  width: 100%;
+}
+
+.authFormField input {
+  border-radius: 8px;
+}
