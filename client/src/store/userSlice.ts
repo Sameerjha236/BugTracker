@@ -58,10 +58,7 @@ const userSlice = createSlice({
       state.userInfo.name = action.payload;
       state.loggedIn = true;
     },
-    logout: (state) => {
-      state.userInfo.name = null;
-      state.loggedIn = false;
-    },
+    logout: () => initialState,
   },
   extraReducers: (builder) => {
     builder.addCase(loginUserThunk.pending, (state) => {
@@ -76,6 +73,7 @@ const userSlice = createSlice({
     builder.addCase(loginUserThunk.rejected, (state, action) => {
       state.loading = false;
       state.error = action.payload as string;
+      state.loggedIn = false;
     });
     builder.addCase(registerUserThunk.pending, (state) => {
       state.loading = true;

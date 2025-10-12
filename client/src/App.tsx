@@ -1,13 +1,13 @@
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import "./App.css";
+import { lazy } from "react";
+
+const Navbar = lazy(() => import("./components/Navbar"));
 
 function App() {
   return (
     <>
-      <nav>
-        <Link to="/">Dashboard</Link> | <Link to="/project/123">Project</Link> |
-        <Link to="/login">Login</Link>
-      </nav>
+      <Navbar />
       <Outlet />
     </>
   );

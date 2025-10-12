@@ -39,8 +39,6 @@ public class UserController {
         userService.createUser(request.getName(), request.getEmail(), request.getPassword());
         response.put("message", "User added successfully");
         response.put("status",true);
-        response.put("email", request.getEmail());
-        response.put("")
         return  ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

@@ -9,7 +9,8 @@ const { Text } = Typography;
 const RegisterForm = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { loading, error } = useAppSelector((state) => state.user);
+
+  const { loading, error, loggedIn } = useAppSelector((state) => state.user);
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,16 +30,16 @@ const RegisterForm = () => {
 
   useEffect(() => {
     if (!registerAttempted) return;
-    if (error) {
-      message.error(error);
-    } else {
+    if (loggedIn) {
       message.success("Registered successfully! Please log in.");
       setEmail("");
       setPassword("");
       setName("");
-      navigate("/login");
+      navigate("/");
+    } else {
+      message.error(error);
     }
-  }, [error, message, navigate, registerAttempted]);
+  }, [error, loggedIn, message, navigate, registerAttempted]);
 
   return (
     <Flex vertical gap={16} align="center" className="authForm">

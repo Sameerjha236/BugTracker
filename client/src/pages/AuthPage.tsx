@@ -1,11 +1,13 @@
-import { lazy } from "react";
+import { lazy, Suspense } from "react";
 
 const AuthLayout = lazy(() => import("../components/AuthComp/AuthLayout"));
 
 const AuthPage = () => {
   return (
     <>
-      <AuthLayout />
+      <Suspense fallback={<div>Loading Auth Page...</div>}>
+        <AuthLayout />
+      </Suspense>
     </>
   );
 };

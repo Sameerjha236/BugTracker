@@ -1,4 +1,11 @@
 #root {
-  padding: 8px;
+  padding: 1em;
   margin: 0px;
+}
+
+.ant-message-notice-content {
+  font-size: 1em;
+  padding: 1em 1.5em;
+  min-width: 15em;
+  border-radius: 0.8em;
 }

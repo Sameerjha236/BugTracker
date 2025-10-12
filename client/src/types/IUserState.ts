@@ -21,3 +21,9 @@ export interface IUserState {
   loading: boolean;
   error: string | null;
 }
+
+export interface IUserProject {
+  name: string;
+  owner: string;
+  projectId: string;
+}
