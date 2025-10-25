@@ -1,76 +1,95 @@
-import { Flex, Input, Typography, Button, App } from "antd";
-import { useCallback, useEffect, useState } from "react";
-import "./Auth.css";
+import React from "react";
+import { App, Button, Flex, Form, Input, Typography } from "antd";
+import type { FormProps } from "antd";
 import { useAppDispatch, useAppSelector } from "../../hooks/storeHook";
 import { loginUserThunk } from "../../store/userSlice";
 import { useNavigate } from "react-router-dom";
+import "./Auth.css";
 
 const { Text } = Typography;
 
-const LoginForm = () => {
+type LoginFormFields = {
+  email: string;
+  password: string;
+};
+
+const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [form] = Form.useForm<LoginFormFields>();
 
   const { loading, loggedIn, error } = useAppSelector((state) => state.user);
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loginAttempted, setLoginAttempted] = useState(false);
-
   const { message } = App.useApp();
 
-  const handleLogin = useCallback(() => {
-    if (!email || !password) {
-      message.warning("Please enter both email and password!");
-      return;
-    }
-    setLoginAttempted(true);
-    dispatch(loginUserThunk({ email, password }));
-  }, [dispatch, email, message, password]);
+  // ✅ When the form is successfully submitted
+  const onFinish: FormProps<LoginFormFields>["onFinish"] = async (values) => {
+    await dispatch(loginUserThunk(values));
+  };
 
-  useEffect(() => {
-    if (!loginAttempted) return;
+  // ❌ When validation fails
+  const onFinishFailed: FormProps<LoginFormFields>["onFinishFailed"] = (
+    errorInfo
+  ) => {
+    console.log("Validation Failed:", errorInfo);
+  };
+
+  // ✅ Watch login state changes
+  React.useEffect(() => {
     if (loggedIn) {
       message.success("Logged in successfully!");
-      setEmail("");
-      setPassword("");
+      form.resetFields();
       navigate("/");
     } else if (error) {
       message.error(error);
     }
-  }, [loggedIn, error, message, navigate, loginAttempted]);
+  }, [loggedIn, error, message, navigate, form]);
 
   return (
-    <Flex vertical gap={16} align="center" className="authForm">
-      <Flex vertical gap={8} className="authFormField">
-        <Text strong>Email</Text>
-        <Input
-          size="large"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
-        />
-      </Flex>
+    <Flex vertical align="center" gap={16} className="authForm">
+      <Text strong style={{ fontSize: "1.2rem" }}>
+        Login to your account
+      </Text>
 
-      <Flex vertical gap={8} className="authFormField">
-        <Text strong>Password</Text>
-        <Input.Password
-          size="large"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter your password"
-        />
-      </Flex>
-
-      <Button
-        type="primary"
-        size="large"
-        loading={loading}
-        onClick={handleLogin}
-        block
+      <Form
+        form={form}
+        name="login-form"
+        layout="vertical"
+        style={{ width: "100%", maxWidth: 350 }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
       >
-        Login
-      </Button>
+        <Form.Item<LoginFormFields>
+          label="Email"
+          name="email"
+          rules={[
+            { required: true, message: "Please enter your email!" },
+            { type: "email", message: "Enter a valid email address!" },
+          ]}
+        >
+          <Input size="large" placeholder="Enter your email" />
+        </Form.Item>
+
+        <Form.Item<LoginFormFields>
+          label="Password"
+          name="password"
+          rules={[{ required: true, message: "Please enter your password!" }]}
+        >
+          <Input.Password size="large" placeholder="Enter your password" />
+        </Form.Item>
+
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            size="large"
+            block
+            loading={loading}
+          >
+            Login
+          </Button>
+        </Form.Item>
+      </Form>
     </Flex>
   );
 };

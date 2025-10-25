@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -32,7 +34,8 @@ public class ProjectController {
                 request.getOwner()
         );
         userProjectService.addRelation(request.getOwner(), projectId, "admin");
-        return ResponseEntity.ok("Project has been created with ID: " + projectId);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Project has been created with ID: " + projectId);
     }
 
     @GetMapping("/{projectId}")
@@ -42,6 +45,16 @@ public class ProjectController {
         return projectOpt.<ResponseEntity<?>>map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("Project with ID " + projectId + " not found"));
+    }
+
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> getProjectsForUser(@PathVariable String userId) {
+        System.out.println("Yo"+ userId);
+        List<ProjectModel> projects = userProjectService.getProjectsForUser(userId);
+        if (projects.isEmpty()) {
+            return ResponseEntity.ok(Collections.emptyList());
+        }
+        return ResponseEntity.ok(projects);
     }
 
     @PatchMapping("/update/{projectId}")

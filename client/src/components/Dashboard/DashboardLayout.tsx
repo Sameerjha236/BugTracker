@@ -1,33 +1,55 @@
-import { Button, Flex, Row } from "antd";
-import { lazy, Suspense, useEffect, useState } from "react";
+import { Col, Flex, Row } from "antd";
+import { lazy, Suspense } from "react";
 import { getProjectsForUser } from "../../utils/ProjectUtil";
-import type { IUserProject } from "../../types/IUserState";
 import CardLoader from "../Common/CardLoader";
+import { useQuery } from "@tanstack/react-query";
+import { useAppSelector } from "../../hooks/storeHook";
+import type { IUserProject } from "../../types/IUserState";
 
 const ProjectCard = lazy(() => import("./ProjectCard"));
+const NewProject = lazy(() => import("../Project/NewProject"));
 
 const DashboardLayout = () => {
-  const [projects, setProjects] = useState<IUserProject[]>([]);
+  const {
+    userInfo: { userId },
+  } = useAppSelector((state) => state.user);
 
-  const fetchProjects = async () => {
-    const response: IUserProject[] = getProjectsForUser("userId");
-    setProjects(response);
-  };
+  const {
+    data: projects,
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["projects", userId],
+    queryFn: () => getProjectsForUser(userId || ""),
+    enabled: !!userId,
+  });
 
-  useEffect(() => {
-    fetchProjects();
-  }, []);
+  if (isLoading) {
+    return (
+      <Row gutter={[16, 16]}>
+        {Array(8)
+          .fill(0)
+          .map((_, i) => (
+            <CardLoader key={i} />
+          ))}
+      </Row>
+    );
+  }
+
+  if (isError) return <Flex>Something went wrong</Flex>;
 
   return (
     <Flex vertical gap={10}>
-      <Flex justify="flex-end" style={{ width: "100%" }}>
-        <Button type="primary">New Project</Button>
+      <Flex justify="flex-end">
+        <NewProject />
       </Flex>
-      <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-        {projects.map((project) => (
-          <Suspense fallback={<CardLoader />} key={project.projectId}>
-            <ProjectCard {...project} />
-          </Suspense>
+      <Row gutter={[16, 16]}>
+        {projects.map((project: IUserProject) => (
+          <Col xs={24} sm={12} md={8} lg={6} key={project.projectId}>
+            <Suspense fallback={<CardLoader />}>
+              <ProjectCard {...project} />
+            </Suspense>
+          </Col>
         ))}
       </Row>
     </Flex>

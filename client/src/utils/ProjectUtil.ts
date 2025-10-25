@@ -1,15 +1,14 @@
-import type { IUserProject } from "../types/IUserState";
+import axios from "axios";
 
-export const getProjectsForUser = (userId: string) => {
-  console.log("Fetching projects for user:", userId);
-  const dummyProjects: IUserProject[] = [
-    { name: "Phoenix UI", owner: "alice", projectId: "1" },
-    { name: "Phoenix UI", owner: "alice", projectId: "1" },
-    { name: "Phoenix UI", owner: "alice", projectId: "1" },
-    { name: "Phoenix UI", owner: "alice", projectId: "1" },
-    { name: "Phoenix UI", owner: "alice", projectId: "1" },
-    { name: "Phoenix UI", owner: "alice", projectId: "1" },
-    { name: "Phoenix UI", owner: "alice", projectId: "1" },
-  ];
-  return dummyProjects;
+const RootProjectPath = "http://localhost:8080/api/project/";
+
+export const getProjectsForUser = async (userId: string) => {
+  const path = RootProjectPath + "user/" + userId;
+  try {
+    const res = await axios.get(path);
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    throw error;
+  }
 };

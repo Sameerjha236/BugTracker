@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/storeHook";
 import { userActions } from "../store/userSlice";
 import { Link } from "react-router-dom";
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -15,10 +15,6 @@ const Navbar = () => {
       <Title level={3}>
         <Link to="/">BugTracker</Link>
       </Title>
-
-      <Text>
-        <Link to="/dummy">Dummy</Link>
-      </Text>
 
       {loggedIn ? (
         <Button danger onClick={() => dispatch(userActions.logout())}>

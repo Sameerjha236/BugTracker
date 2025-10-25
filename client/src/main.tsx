@@ -6,6 +6,8 @@ import { store } from "./store";
 import { App as AntdApp, message } from "antd";
 import App from "./App";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const ProjectPage = lazy(() => import("./pages/ProjectPage"));
@@ -62,6 +64,13 @@ const router = createBrowserRouter([
   },
 ]);
 
+const queryClient = new QueryClient({});
+
+// {
+//     "email":"s@gmail.com",
+//     "password":"Sameer@123"
+// }
+
 message.config({
   top: 80,
   duration: 2,
@@ -77,9 +86,12 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         duration: 2,
       }}
     >
-      <Provider store={store}>
-        <RouterProvider router={router} />
-      </Provider>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <RouterProvider router={router} />
+        </Provider>
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </AntdApp>
   </React.StrictMode>
 );

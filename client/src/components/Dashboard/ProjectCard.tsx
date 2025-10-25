@@ -9,6 +9,7 @@ const ProjectCard = (project: IUserProject) => {
   const handleClick = () => {
     message.info("Button clicked!");
   };
+
   return (
     <Col
       key={project.projectId}
