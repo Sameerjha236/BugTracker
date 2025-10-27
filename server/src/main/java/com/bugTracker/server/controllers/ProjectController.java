@@ -49,7 +49,6 @@ public class ProjectController {
 
     @GetMapping("/user/{userId}")
     public ResponseEntity<?> getProjectsForUser(@PathVariable String userId) {
-        System.out.println("Yo"+ userId);
         List<ProjectModel> projects = userProjectService.getProjectsForUser(userId);
         if (projects.isEmpty()) {
             return ResponseEntity.ok(Collections.emptyList());

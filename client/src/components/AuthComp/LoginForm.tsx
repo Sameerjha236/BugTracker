@@ -1,17 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { App, Button, Flex, Form, Input, Typography } from "antd";
 import type { FormProps } from "antd";
 import { useAppDispatch, useAppSelector } from "../../hooks/storeHook";
 import { loginUserThunk } from "../../store/userSlice";
 import { useNavigate } from "react-router-dom";
 import "./Auth.css";
+import type { LoginFormFields } from "../../types/FormFields";
 
 const { Text } = Typography;
-
-type LoginFormFields = {
-  email: string;
-  password: string;
-};
 
 const LoginForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -34,7 +30,7 @@ const LoginForm: React.FC = () => {
   };
 
   // ✅ Watch login state changes
-  React.useEffect(() => {
+  useEffect(() => {
     if (loggedIn) {
       message.success("Logged in successfully!");
       form.resetFields();

@@ -1,87 +1,101 @@
-import { App, Button, Typography, Flex, Input } from "antd";
-import { useCallback, useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import { App, Button, Flex, Form, Input, Typography } from "antd";
+import type { FormProps } from "antd";
 import { useAppDispatch, useAppSelector } from "../../hooks/storeHook";
-import { useNavigate } from "react-router-dom";
 import { registerUserThunk } from "../../store/userSlice";
+import { useNavigate } from "react-router-dom";
+import "./Auth.css";
+import type { RegisterFormFields } from "../../types/FormFields";
 
 const { Text } = Typography;
 
-const RegisterForm = () => {
+const RegisterForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [form] = Form.useForm<RegisterFormFields>();
 
-  const { loading, error, loggedIn } = useAppSelector((state) => state.user);
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
-  const [registerAttempted, setRegisterAttempted] = useState(false);
-
+  const { loading, loggedIn, error } = useAppSelector((state) => state.user);
   const { message } = App.useApp();
 
-  const handleRegister = useCallback(() => {
-    if (!email || !password || !name) {
-      message.warning("Please enter all fields!");
-      return;
-    }
-    setRegisterAttempted(true);
-    dispatch(registerUserThunk({ email, password, name }));
-  }, [dispatch, email, message, name, password]);
+  // ✅ called when form passes validation
+  const onFinish: FormProps<RegisterFormFields>["onFinish"] = async (
+    values
+  ) => {
+    await dispatch(registerUserThunk(values));
+  };
 
+  // ❌ called when validation fails
+  const onFinishFailed: FormProps<RegisterFormFields>["onFinishFailed"] = (
+    errorInfo
+  ) => {
+    console.log("Validation Failed:", errorInfo);
+  };
+
+  // ✅ Watch registration state changes
   useEffect(() => {
-    if (!registerAttempted) return;
     if (loggedIn) {
       message.success("Registered successfully! Please log in.");
-      setEmail("");
-      setPassword("");
-      setName("");
+      form.resetFields();
       navigate("/");
-    } else {
+    } else if (error) {
       message.error(error);
     }
-  }, [error, loggedIn, message, navigate, registerAttempted]);
+  }, [loggedIn, error, message, navigate, form]);
 
   return (
-    <Flex vertical gap={16} align="center" className="authForm">
-      <Flex vertical gap={8} className="authFormField">
-        <Text strong>Name</Text>
-        <Input
-          size="large"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          placeholder="Enter your name"
-        />
-      </Flex>
+    <Flex vertical align="center" gap={16} className="authForm">
+      <Text strong style={{ fontSize: "1.2rem" }}>
+        Register a new account
+      </Text>
 
-      <Flex vertical gap={8} className="authFormField">
-        <Text strong>Email</Text>
-        <Input
-          size="large"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="Enter your email"
-        />
-      </Flex>
-
-      <Flex vertical gap={8} className="authFormField">
-        <Text strong>Password</Text>
-        <Input.Password
-          size="large"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Enter your password"
-        />
-      </Flex>
-
-      <Button
-        type="primary"
-        size="large"
-        loading={loading}
-        onClick={handleRegister}
-        block
+      <Form
+        form={form}
+        name="register-form"
+        layout="vertical"
+        style={{ width: "100%", maxWidth: 350 }}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
       >
-        Register
-      </Button>
+        <Form.Item<RegisterFormFields>
+          label="Name"
+          name="name"
+          rules={[{ required: true, message: "Please enter your name!" }]}
+        >
+          <Input size="large" placeholder="Enter your name" />
+        </Form.Item>
+
+        <Form.Item<RegisterFormFields>
+          label="Email"
+          name="email"
+          rules={[
+            { required: true, message: "Please enter your email!" },
+            { type: "email", message: "Enter a valid email address!" },
+          ]}
+        >
+          <Input size="large" placeholder="Enter your email" />
+        </Form.Item>
+
+        <Form.Item<RegisterFormFields>
+          label="Password"
+          name="password"
+          rules={[{ required: true, message: "Please enter your password!" }]}
+        >
+          <Input.Password size="large" placeholder="Enter your password" />
+        </Form.Item>
+
+        <Form.Item>
+          <Button
+            type="primary"
+            htmlType="submit"
+            size="large"
+            block
+            loading={loading}
+          >
+            Register
+          </Button>
+        </Form.Item>
+      </Form>
     </Flex>
   );
 };

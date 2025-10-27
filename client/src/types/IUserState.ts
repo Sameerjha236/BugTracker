@@ -1,29 +1,29 @@
-export interface IUserCredentials {
+export type IUserCredentials = {
   email: string;
   password: string;
-}
+};
 
-export interface IUserRegisterCredentials {
+export type IUserRegisterCredentials = {
   name: string;
   email: string;
   password: string;
-}
+};
 
-export interface IUserInfo {
+export type IUserInfo = {
   name: string | null;
   email: string | null;
   userId: string | null;
-}
+};
 
-export interface IUserState {
+export type IUserState = {
   userInfo: IUserInfo;
   loggedIn: boolean;
   loading: boolean;
   error: string | null;
-}
+};
 
-export interface IUserProject {
+export type IUserProject = {
   name: string;
   owner: string;
   projectId: string;
-}
+};

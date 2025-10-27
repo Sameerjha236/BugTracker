@@ -30,7 +30,6 @@ public class UserProjectService {
     public void updateRole(String user_id, String project_id, String role) {
         Optional<UserProjectModel> up = userProjectRepository.findByUserIdAndProjectId(user_id,project_id);
         if(up.isEmpty()) {
-            System.out.println("not found");
             return;
         }
         UserProjectModel userProject = up.get();
@@ -41,7 +40,6 @@ public class UserProjectService {
     public void removeUserFromProject(String user_id, String project_id) {
         Optional<UserProjectModel> up = userProjectRepository.findByUserIdAndProjectId(user_id,project_id);
         if(up.isEmpty()) {
-            System.out.println("not found");
             return;
         }
         UserProjectModel userProject = up.get();

@@ -7,7 +7,7 @@ import { useAppSelector } from "../../hooks/storeHook";
 import type { IUserProject } from "../../types/IUserState";
 
 const ProjectCard = lazy(() => import("./ProjectCard"));
-const NewProject = lazy(() => import("../Project/NewProject"));
+const NewProject = lazy(() => import("./NewProject"));
 
 const DashboardLayout = () => {
   const {

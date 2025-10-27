@@ -1,5 +1,6 @@
 import { App, Card, Col, Flex, Typography } from "antd";
 import type { IUserProject } from "../../types/IUserState";
+import { Link } from "react-router-dom";
 
 const { Text } = Typography;
 
@@ -18,12 +19,14 @@ const ProjectCard = (project: IUserProject) => {
       md={8}
       style={{ marginBottom: 16 }}
     >
-      <Card onClick={handleClick} hoverable>
-        <Flex vertical>
-          <Text strong>{project.name}</Text>
-          <Text>Owned by: {project.owner}</Text>
-        </Flex>
-      </Card>
+      <Link to={`/project/${project.projectId}`}>
+        <Card onClick={handleClick} hoverable>
+          <Flex vertical>
+            <Text strong>{project.name}</Text>
+            {/* <Text>Owned by: {project.owner}</Text> */}
+          </Flex>
+        </Card>
+      </Link>
     </Col>
   );
 };
