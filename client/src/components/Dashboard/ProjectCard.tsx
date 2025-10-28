@@ -1,16 +1,10 @@
-import { App, Card, Col, Flex, Typography } from "antd";
+import { Card, Col, Flex, Typography } from "antd";
 import type { IUserProject } from "../../types/IUserState";
 import { Link } from "react-router-dom";
 
 const { Text } = Typography;
 
 const ProjectCard = (project: IUserProject) => {
-  const { message } = App.useApp();
-
-  const handleClick = () => {
-    message.info("Button clicked!");
-  };
-
   return (
     <Col
       key={project.projectId}
@@ -20,7 +14,7 @@ const ProjectCard = (project: IUserProject) => {
       style={{ marginBottom: 16 }}
     >
       <Link to={`/project/${project.projectId}`}>
-        <Card onClick={handleClick} hoverable>
+        <Card hoverable>
           <Flex vertical>
             <Text strong>{project.name}</Text>
             {/* <Text>Owned by: {project.owner}</Text> */}

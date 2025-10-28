@@ -14,10 +14,19 @@ export const getProjectsForUser = async (userId: string) => {
   }
 };
 
+export const getProjectDetails = async (projectId: string) => {
+  const path = RootProjectPath + projectId;
+  try {
+    const res = await axios.get(path);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
 export const handleCreateProject = async (data: ICreateProject) => {
-  const res = await axios.post(
-    "http://localhost:8080/api/project/create",
-    data
-  );
-  console.log(res.data);
+  const path = RootProjectPath + "create";
+  const res = await axios.post(path, data);
+  return res.data;
 };

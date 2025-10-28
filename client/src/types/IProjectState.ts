@@ -3,3 +3,7 @@ export type ICreateProject = {
   description: string;
   owner: string;
 };
+
+export type IProjectLayoutProps = {
+  projectId: string;
+};

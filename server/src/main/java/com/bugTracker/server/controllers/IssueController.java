@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.Map;
 
 @RestController
@@ -18,8 +19,17 @@ public class IssueController {
         this.issueService = issueService;
     }
 
+    // ✅ Get all issues for a project (returns [] if none)
+    @GetMapping("/project/{projectId}")
+    public ResponseEntity<?> getIssuesByProject(@PathVariable String projectId) {
+        var issues = issueService.getIssuesByProjectId(projectId);
+        return ResponseEntity.ok(issues == null ? Collections.emptyList() : issues);
+    }
+
+    // ✅ Create a new issue
     @PostMapping("/create")
     public ResponseEntity<String> createIssue(@RequestBody CreateIssuedto request) {
+        System.out.println("reached here");
         String issueId = issueService.createIssue(
                 request.getProjectId(),
                 request.getTitle(),
@@ -28,9 +38,11 @@ public class IssueController {
                 request.getAssigneeId(),
                 request.getPriority()
         );
-        return ResponseEntity.ok("Issue added with ID: " + issueId);
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body("Issue created with ID: " + issueId);
     }
 
+    // ✅ Update issue details
     @PatchMapping("/update/{issueId}")
     public ResponseEntity<String> updateIssue(
             @PathVariable String issueId,
@@ -45,6 +57,7 @@ public class IssueController {
                     .body("Issue with ID " + issueId + " not found");
     }
 
+    // ✅ Get single issue by ID
     @GetMapping("/{issueId}")
     public ResponseEntity<?> getIssue(@PathVariable String issueId) {
         return issueService.getIssue(issueId)
@@ -53,6 +66,7 @@ public class IssueController {
                         .body("Issue with ID " + issueId + " not found"));
     }
 
+    // ✅ Delete an issue
     @DeleteMapping("/{issueId}")
     public ResponseEntity<String> deleteIssue(@PathVariable String issueId) {
         boolean deleted = issueService.deleteIssue(issueId);

@@ -41,7 +41,9 @@ const DashboardLayout = () => {
   return (
     <Flex vertical gap={10}>
       <Flex justify="flex-end">
-        <NewProject />
+        <Suspense fallback={<div>Loading...</div>}>
+          <NewProject />
+        </Suspense>
       </Flex>
       <Row gutter={[16, 16]}>
         {projects.map((project: IUserProject) => (
