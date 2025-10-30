@@ -36,20 +36,21 @@ const ProjectLayout = () => {
 
   if (isError) return <Flex>Something went wrong</Flex>;
 
-  console.info("yo", issues);
   return (
     <>
       <Suspense fallback={<div>Loading Project Header...</div>}>
         <ProjectHeader projectId={projectId || ""} />
       </Suspense>
 
-      {issues.map((issue: IIssueSummary) => (
-        <Col xs={24} sm={12} md={8} lg={6} key={issue.issueId}>
-          <Suspense fallback={<CardLoader />}>
-            <IssueCard {...issue} />
-          </Suspense>
-        </Col>
-      ))}
+      <Row gutter={[16, 16]}>
+        {issues.map((issue: IIssueSummary) => (
+          <Col xs={24} sm={12} md={8} lg={6} key={issue.issueId}>
+            <Suspense fallback={<CardLoader />}>
+              <IssueCard {...issue} />
+            </Suspense>
+          </Col>
+        ))}
+      </Row>
     </>
   );
 };

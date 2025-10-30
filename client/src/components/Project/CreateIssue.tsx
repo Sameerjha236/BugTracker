@@ -12,18 +12,7 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { ICreateIssue } from "../../types/IIssueState";
 import { createIssue } from "../../utils/IssueUtil";
-
-const statusOptions = [
-  { label: "Open", value: "open" },
-  { label: "In Progress", value: "in_progress" },
-  { label: "Closed", value: "closed" },
-];
-
-const priorityOptions = [
-  { label: "Low", value: "low" },
-  { label: "Medium", value: "medium" },
-  { label: "High", value: "high" },
-];
+import { statusOptions, priorityOptions } from "../../ Constants";
 
 type CreateIssueFormFields = {
   title: string;
@@ -32,6 +21,8 @@ type CreateIssueFormFields = {
   priority: string;
   assigneeId: string;
 };
+
+//   "assigneeId": "dc253b49-c465-48a2-9234-1fe318d2bdc9",
 
 const CreateIssue = ({ projectId }: { projectId: string }) => {
   const queryClient = useQueryClient();
