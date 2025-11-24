@@ -16,6 +16,22 @@ export const getIssueForProject = async (projectId: string) => {
 
 export const createIssue = async (newIssue: ICreateIssue) => {
   const path = RootIssuePath + "create";
-  const res = await axios.post(path, newIssue);
-  return res.data;
+  try {
+    const res = await axios.post(path, newIssue);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getIssueDetail = async (issueId: string) => {
+  const path = RootIssuePath + issueId;
+  try {
+    const res = await axios.get(path);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };

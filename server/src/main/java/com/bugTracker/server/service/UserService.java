@@ -72,4 +72,8 @@ public class UserService {
         UserModel user = new UserModel(name, email, hashedPassword);
         userRepo.save(user);
     }
+
+    public Optional<UserModel> getUserDetails(String user_id) {
+        return userRepo.findById(user_id);
+    }
 }
