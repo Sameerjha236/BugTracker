@@ -1,9 +1,11 @@
-import { useParams } from "react-router-dom";
-import { getIssueDetail } from "../../utils/IssueUtil";
-import { useQuery } from "@tanstack/react-query";
-import { Layout, Flex, Space } from "antd";
-import CardLoader from "../Common/CardLoader";
 import { lazy, Suspense } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { Layout, Flex, Space, Button } from "antd";
+import { ArrowLeftOutlined } from "@ant-design/icons";
+
+import { getIssueDetail } from "../../utils/IssueUtil";
+import CardLoader from "../Common/CardLoader";
 
 const IssueHeader = lazy(() => import("./IssueHeader"));
 const IssueDescription = lazy(() => import("./IssueDescription"));
@@ -14,6 +16,7 @@ const { Content, Sider } = Layout;
 
 const IssueLayout = () => {
   const { id: issueId } = useParams<{ id: string }>();
+  const navigate = useNavigate();
 
   const {
     data: issueDetail,
@@ -34,6 +37,15 @@ const IssueLayout = () => {
       <Layout style={{ padding: 24, gap: 24 }}>
         <Content>
           <Space direction="vertical" size="large" style={{ width: "100%" }}>
+            <Button
+              type="link"
+              icon={<ArrowLeftOutlined />}
+              onClick={() => navigate(-1)}
+              style={{ padding: 0, fontSize: 14 }}
+            >
+              Back to Issues
+            </Button>
+
             <IssueHeader issue={issueDetail} />
             <IssueDescription issue={issueDetail} />
             <IssueComments issueId={issueId!} />
