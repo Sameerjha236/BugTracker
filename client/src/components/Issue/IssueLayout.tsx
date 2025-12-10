@@ -7,7 +7,7 @@ import { lazy, Suspense } from "react";
 
 const IssueHeader = lazy(() => import("./IssueHeader"));
 const IssueDescription = lazy(() => import("./IssueDescription"));
-const IssueComments = lazy(() => import("./IssueComments"));
+const IssueComments = lazy(() => import("./Comment/IssueComments"));
 const IssueSidebar = lazy(() => import("./IssueSidebar"));
 
 const { Content, Sider } = Layout;

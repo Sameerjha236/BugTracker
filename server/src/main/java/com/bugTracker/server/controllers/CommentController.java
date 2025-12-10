@@ -21,8 +21,7 @@ public class CommentController {
     public ResponseEntity<String> addComment(@RequestBody Map<String, String> request) {
         String issueId = request.get("issueId");
         String userId = request.get("userId");
-        String text = request.get("text");
-
+        String text = request.get("commentText");
         String commentId = commentService.addComment(issueId, userId, text);
         return ResponseEntity.ok("Comment added with ID: " + commentId);
     }

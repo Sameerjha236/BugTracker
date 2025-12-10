@@ -28,7 +28,7 @@ public class CommentService {
     }
 
     public List<CommentModel> getCommentsByIssue(String issueId) {
-        return commentRepository.findByIssueId(issueId);
+        return commentRepository.findByIssueId(issueId).reversed();
     }
 
     public Optional<CommentModel> getComment(String commentId) {
