@@ -49,3 +49,14 @@ export const updateIssue = async (
     throw error;
   }
 };
+
+export const deleteIssue = async (issueId: string) => {
+  const path = RootIssuePath + issueId;
+  try {
+    const res = await axios.delete(path);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

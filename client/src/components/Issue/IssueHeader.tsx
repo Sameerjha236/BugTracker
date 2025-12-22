@@ -1,6 +1,7 @@
-import { Card, Typography, Tag, Space } from "antd";
+import { Card, Typography, Tag, Space, Flex } from "antd";
 import type { IIssue } from "../../types/IIssueState";
 import EditableText from "../Common/EditableField/EditableText";
+import IssueActions from "./IssueActions";
 
 type IssueHeaderProps = {
   issue: IIssue;
@@ -15,10 +16,13 @@ const IssueHeader = ({ issue, mutate }: IssueHeaderProps) => {
   return (
     <Card>
       <Space direction="vertical" style={{ width: "100%" }}>
-        <Space>
-          <Tag color="blue">{issue.status}</Tag>
-          <Tag color="red">{issue.priority}</Tag>
-        </Space>
+        <Flex justify="space-between" style={{ width: "100%" }}>
+          <Space>
+            <Tag color="blue">{issue.status}</Tag>
+            <Tag color="red">{issue.priority}</Tag>
+          </Space>
+          <IssueActions />
+        </Flex>
 
         <EditableText
           value={issue.title}
