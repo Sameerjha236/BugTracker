@@ -17,19 +17,16 @@ const LoginForm: React.FC = () => {
   const { loading, loggedIn, error } = useAppSelector((state) => state.user);
   const { message } = App.useApp();
 
-  // ✅ When the form is successfully submitted
   const onFinish: FormProps<LoginFormFields>["onFinish"] = async (values) => {
     await dispatch(loginUserThunk(values));
   };
 
-  // ❌ When validation fails
   const onFinishFailed: FormProps<LoginFormFields>["onFinishFailed"] = (
     errorInfo
   ) => {
     console.log("Validation Failed:", errorInfo);
   };
 
-  // ✅ Watch login state changes
   useEffect(() => {
     if (loggedIn) {
       message.success("Logged in successfully!");

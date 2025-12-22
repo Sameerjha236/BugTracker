@@ -1,22 +1,24 @@
 import { lazy, Suspense } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { Layout, Flex, Space, Button } from "antd";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Layout, Flex, Space, Button, message } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 
-import { getIssueDetail } from "../../utils/IssueUtil";
+import { getIssueDetail, updateIssue } from "../../utils/IssueUtil";
 import CardLoader from "../Common/CardLoader";
+import type { ICreateIssue } from "../../types/IIssueState";
 
 const IssueHeader = lazy(() => import("./IssueHeader"));
 const IssueDescription = lazy(() => import("./IssueDescription"));
 const IssueComments = lazy(() => import("./Comment/IssueComments"));
-const IssueSidebar = lazy(() => import("./IssueSidebar"));
+// const IssueSidebar = lazy(() => import("./IssueSidebar"));
 
-const { Content, Sider } = Layout;
+const { Content } = Layout;
 
 const IssueLayout = () => {
   const { id: issueId } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
 
   const {
     data: issueDetail,
@@ -26,6 +28,15 @@ const IssueLayout = () => {
     queryKey: ["issue", issueId],
     queryFn: () => getIssueDetail(issueId || ""),
     enabled: !!issueId,
+  });
+
+  const { mutate } = useMutation({
+    mutationFn: ({ updatedFields }: { updatedFields: Partial<ICreateIssue> }) =>
+      updateIssue(issueId || "", updatedFields),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["issue", issueId] });
+      message.success("Issue updated successfully");
+    },
   });
 
   if (isLoading) return <CardLoader />;
@@ -45,16 +56,15 @@ const IssueLayout = () => {
             >
               Back to Issues
             </Button>
-
-            <IssueHeader issue={issueDetail} />
-            <IssueDescription issue={issueDetail} />
+            <IssueHeader issue={issueDetail} mutate={mutate} />
+            <IssueDescription issue={issueDetail} mutate={mutate} />
             <IssueComments issueId={issueId!} />
           </Space>
         </Content>
 
-        <Sider width={320} theme="light">
+        {/* <Sider width={320} theme="light">
           <IssueSidebar issue={issueDetail} />
-        </Sider>
+        </Sider> */}
       </Layout>
     </Suspense>
   );

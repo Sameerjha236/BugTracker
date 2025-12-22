@@ -26,7 +26,6 @@ export const getCommentsForIssue = async (issueId: string) => {
   const path = RootIssuePath + "issue/" + issueId;
   try {
     const res = await axios.get(path);
-    console.log(res.data);
     return res.data;
   } catch (error) {
     console.error(error);

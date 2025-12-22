@@ -35,3 +35,17 @@ export const getIssueDetail = async (issueId: string) => {
     throw error;
   }
 };
+
+export const updateIssue = async (
+  issueId: string,
+  updatedFields: Partial<ICreateIssue>
+) => {
+  const path = RootIssuePath + "update/" + issueId;
+  try {
+    const res = await axios.patch(path, updatedFields);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

@@ -17,21 +17,18 @@ const RegisterForm: React.FC = () => {
   const { loading, loggedIn, error } = useAppSelector((state) => state.user);
   const { message } = App.useApp();
 
-  // ✅ called when form passes validation
   const onFinish: FormProps<RegisterFormFields>["onFinish"] = async (
     values
   ) => {
     await dispatch(registerUserThunk(values));
   };
 
-  // ❌ called when validation fails
   const onFinishFailed: FormProps<RegisterFormFields>["onFinishFailed"] = (
     errorInfo
   ) => {
     console.log("Validation Failed:", errorInfo);
   };
 
-  // ✅ Watch registration state changes
   useEffect(() => {
     if (loggedIn) {
       message.success("Registered successfully! Please log in.");

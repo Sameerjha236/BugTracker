@@ -47,7 +47,7 @@ public class IssueController {
     public ResponseEntity<String> updateIssue(
             @PathVariable String issueId,
             @RequestBody Map<String, Object> updates) {
-
+        System.out.println("reached here");
         boolean updated = issueService.updateIssue(issueId, updates);
 
         if (updated)

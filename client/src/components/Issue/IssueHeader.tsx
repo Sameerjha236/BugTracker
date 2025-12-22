@@ -1,7 +1,17 @@
-import { Card, Typography, Tag, Space, Button } from "antd";
+import { Card, Typography, Tag, Space } from "antd";
 import type { IIssue } from "../../types/IIssueState";
+import EditableText from "../Common/EditableField/EditableText";
 
-const IssueHeader = ({ issue }: { issue: IIssue }) => {
+type IssueHeaderProps = {
+  issue: IIssue;
+  mutate: (params: { updatedFields: Partial<IIssue> }) => void;
+};
+
+const IssueHeader = ({ issue, mutate }: IssueHeaderProps) => {
+  const handleTitleSave = (newTitle: string) => {
+    mutate({ updatedFields: { title: newTitle } });
+  };
+
   return (
     <Card>
       <Space direction="vertical" style={{ width: "100%" }}>
@@ -10,13 +20,18 @@ const IssueHeader = ({ issue }: { issue: IIssue }) => {
           <Tag color="red">{issue.priority}</Tag>
         </Space>
 
-        <Typography.Title level={3} style={{ margin: 0 }}>
-          {issue.title}
-        </Typography.Title>
+        <EditableText
+          value={issue.title}
+          onSave={handleTitleSave}
+          renderView={(value) => (
+            <Typography.Title level={3} style={{ margin: 0 }}>
+              {value}
+            </Typography.Title>
+          )}
+        />
 
         <Space>
           <Tag color="green">Assignee: {issue.assigneeId || "Unassigned"}</Tag>
-          <Button>Edit</Button>
         </Space>
       </Space>
     </Card>

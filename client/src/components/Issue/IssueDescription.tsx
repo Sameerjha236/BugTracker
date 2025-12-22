@@ -1,12 +1,28 @@
 import { Card, Typography } from "antd";
 import type { IIssue } from "../../types/IIssueState";
+import EditableTextWithButton from "../Common/EditableField/EditableTextWithButton";
 
-const IssueDescription = ({ issue }: { issue: IIssue }) => {
+type IssueDescriptionProps = {
+  issue: IIssue;
+  mutate: (params: { updatedFields: Partial<IIssue> }) => void;
+};
+
+const IssueDescription = ({ issue, mutate }: IssueDescriptionProps) => {
+  const handleSaveDescription = (newDescription: string) => {
+    mutate({ updatedFields: { description: newDescription } });
+  };
+
   return (
     <Card title="Description">
-      <Typography.Paragraph>
-        {issue.description || "No description provided."}
-      </Typography.Paragraph>
+      <EditableTextWithButton
+        value={issue.description || ""}
+        onSave={handleSaveDescription}
+        renderView={(value) => (
+          <Typography.Paragraph>
+            {value || "No description provided."}
+          </Typography.Paragraph>
+        )}
+      />
     </Card>
   );
 };
