@@ -27,11 +27,6 @@ public class ProjectService {
         return projectRepository.findById(projectId);
     }
 
-//    public Optional<ProjectModel[]> getProjectsForUser(String userId) {
-//
-//        return [];
-//    }
-
     public boolean updateProject(String projectId, Map<String, Object> updates) {
         Optional<ProjectModel> optionalProject = projectRepository.findById(projectId);
         if (optionalProject.isEmpty()) return false;

@@ -11,6 +11,7 @@ import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const ProjectPage = lazy(() => import("./pages/ProjectPage"));
+const ProjectSettings = lazy(() => import("./pages/ProjectSettingPage"));
 const AuthPage = lazy(() => import("./pages/AuthPage"));
 const IssuePage = lazy(() => import("./pages/IssuePage"));
 
@@ -45,6 +46,14 @@ const router = createBrowserRouter([
             element: (
               <Suspense fallback={<div>Loading Project...</div>}>
                 <ProjectPage />
+              </Suspense>
+            ),
+          },
+          {
+            path: "/project/:id/settings",
+            element: (
+              <Suspense fallback={<div>Loading Project Settings...</div>}>
+                <ProjectSettings />
               </Suspense>
             ),
           },

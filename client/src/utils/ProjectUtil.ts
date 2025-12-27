@@ -30,3 +30,28 @@ export const handleCreateProject = async (data: ICreateProject) => {
   const res = await axios.post(path, data);
   return res.data;
 };
+
+export const updateProject = async (
+  projectId: string,
+  updatedFields: Partial<ICreateProject>
+) => {
+  const path = RootProjectPath + "update/" + projectId;
+  try {
+    const res = await axios.patch(path, updatedFields);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const deleteProject = async (projectId: string) => {
+  const path = RootProjectPath + projectId;
+  try {
+    const res = await axios.delete(path);
+    return res.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

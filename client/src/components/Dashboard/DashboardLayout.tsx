@@ -46,7 +46,7 @@ const DashboardLayout = () => {
         </Suspense>
       </Flex>
       <Row gutter={[16, 16]}>
-        {projects.map((project: IUserProject) => (
+        {projects?.map((project: IUserProject) => (
           <Col xs={24} sm={12} md={8} lg={6} key={project.projectId}>
             <Suspense fallback={<CardLoader />}>
               <ProjectCard {...project} />
