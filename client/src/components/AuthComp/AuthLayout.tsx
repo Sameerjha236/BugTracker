@@ -1,7 +1,8 @@
 import { lazy, useState, Suspense } from "react";
 import { Typography, Flex, Card } from "antd";
-import "./Auth.css";
 import AuthSkeleton from "./AuthSkeleton";
+import { Content } from "antd/es/layout/layout";
+import "./Auth.css";
 
 const { Title } = Typography;
 
@@ -14,7 +15,7 @@ const AuthLayout = () => {
   return (
     <Flex vertical align="center" justify="center" className="authLayout">
       <Card className="authCard" variant="borderless">
-        <Flex justify="center" align="center" gap={32} className="authTabs">
+        <Flex justify="center" gap={32} className="authTabs">
           <Title
             level={4}
             className={`authTab ${login ? "active" : ""}`}
@@ -31,11 +32,11 @@ const AuthLayout = () => {
           </Title>
         </Flex>
 
-        <div className="authFormWrapper">
+        <Content className="authFormWrapper">
           <Suspense fallback={<AuthSkeleton />}>
-            {login ? <LoginForm /> : <RegisterForm />}
+            {login ? <LoginForm /> : <RegisterForm setLogin={setLogin} />}
           </Suspense>
-        </div>
+        </Content>
       </Card>
     </Flex>
   );

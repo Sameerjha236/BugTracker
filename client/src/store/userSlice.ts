@@ -1,11 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
 import type {
   IUserCredentials,
   IUserRegisterCredentials,
   IUserState,
 } from "../types/IUserState";
-import axios from "axios";
 
 const initialState: IUserState = {
   userInfo: {
@@ -15,7 +14,6 @@ const initialState: IUserState = {
   },
   loggedIn: false,
   loading: false,
-  error: null,
 };
 
 export const loginUserThunk = createAsyncThunk(
@@ -29,7 +27,7 @@ export const loginUserThunk = createAsyncThunk(
       return res.data;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      return thunkApi.rejectWithValue(err.response.data.message);
+      return thunkApi.rejectWithValue(err.response?.data?.message);
     }
   }
 );
@@ -45,7 +43,7 @@ export const registerUserThunk = createAsyncThunk(
       return res.data;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      return thunkApi.rejectWithValue(err.response.data.message);
+      return thunkApi.rejectWithValue(err.response?.data?.message);
     }
   }
 );
@@ -54,40 +52,34 @@ const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<string>) => {
-      state.userInfo.name = action.payload;
-      state.loggedIn = true;
-    },
     logout: () => initialState,
   },
   extraReducers: (builder) => {
-    builder.addCase(loginUserThunk.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
-    builder.addCase(loginUserThunk.fulfilled, (state, action) => {
-      state.loading = false;
-      state.userInfo = action.payload;
-      state.loggedIn = true;
-    });
-    builder.addCase(loginUserThunk.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload as string;
-      state.loggedIn = false;
-    });
-    builder.addCase(registerUserThunk.pending, (state) => {
-      state.loading = true;
-      state.error = null;
-    });
-    builder.addCase(registerUserThunk.fulfilled, (state, action) => {
-      state.loading = false;
-      state.userInfo = action.payload;
-      state.loggedIn = true;
-    });
-    builder.addCase(registerUserThunk.rejected, (state, action) => {
-      state.loading = false;
-      state.error = action.payload as string;
-    });
+    builder
+      // login
+      .addCase(loginUserThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(loginUserThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.userInfo = action.payload;
+        state.loggedIn = true;
+      })
+      .addCase(loginUserThunk.rejected, (state) => {
+        state.loading = false;
+        state.loggedIn = false;
+      })
+
+      // register
+      .addCase(registerUserThunk.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(registerUserThunk.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(registerUserThunk.rejected, (state) => {
+        state.loading = false;
+      });
   },
 });
 

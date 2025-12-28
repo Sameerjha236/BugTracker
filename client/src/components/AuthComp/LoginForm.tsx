@@ -1,41 +1,31 @@
-import React, { useEffect } from "react";
 import { App, Button, Flex, Form, Input, Typography } from "antd";
 import type { FormProps } from "antd";
 import { useAppDispatch, useAppSelector } from "../../hooks/storeHook";
 import { loginUserThunk } from "../../store/userSlice";
 import { useNavigate } from "react-router-dom";
-import "./Auth.css";
 import type { LoginFormFields } from "../../types/FormFields";
 
 const { Text } = Typography;
 
-const LoginForm: React.FC = () => {
+const LoginForm = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [form] = Form.useForm<LoginFormFields>();
-
-  const { loading, loggedIn, error } = useAppSelector((state) => state.user);
+  const { loading } = useAppSelector((state) => state.user);
   const { message } = App.useApp();
 
   const onFinish: FormProps<LoginFormFields>["onFinish"] = async (values) => {
-    await dispatch(loginUserThunk(values));
-  };
+    try {
+      await dispatch(loginUserThunk(values)).unwrap();
 
-  const onFinishFailed: FormProps<LoginFormFields>["onFinishFailed"] = (
-    errorInfo
-  ) => {
-    console.log("Validation Failed:", errorInfo);
-  };
-
-  useEffect(() => {
-    if (loggedIn) {
       message.success("Logged in successfully!");
       form.resetFields();
       navigate("/");
-    } else if (error) {
-      message.error(error);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      message.error(err || "Login failed");
     }
-  }, [loggedIn, error, message, navigate, form]);
+  };
 
   return (
     <Flex vertical align="center" gap={16} className="authForm">
@@ -45,43 +35,29 @@ const LoginForm: React.FC = () => {
 
       <Form
         form={form}
-        name="login-form"
         layout="vertical"
         style={{ width: "100%", maxWidth: 350 }}
         onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
-        autoComplete="off"
       >
-        <Form.Item<LoginFormFields>
+        <Form.Item
           label="Email"
           name="email"
-          rules={[
-            { required: true, message: "Please enter your email!" },
-            { type: "email", message: "Enter a valid email address!" },
-          ]}
+          rules={[{ required: true }, { type: "email" }]}
         >
-          <Input size="large" placeholder="Enter your email" />
+          <Input size="large" />
         </Form.Item>
 
-        <Form.Item<LoginFormFields>
+        <Form.Item
           label="Password"
           name="password"
-          rules={[{ required: true, message: "Please enter your password!" }]}
+          rules={[{ required: true }]}
         >
-          <Input.Password size="large" placeholder="Enter your password" />
+          <Input.Password size="large" />
         </Form.Item>
 
-        <Form.Item>
-          <Button
-            type="primary"
-            htmlType="submit"
-            size="large"
-            block
-            loading={loading}
-          >
-            Login
-          </Button>
-        </Form.Item>
+        <Button type="primary" htmlType="submit" block loading={loading}>
+          Login
+        </Button>
       </Form>
     </Flex>
   );

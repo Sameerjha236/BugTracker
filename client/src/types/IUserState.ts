@@ -19,7 +19,6 @@ export type IUserState = {
   userInfo: IUserInfo;
   loggedIn: boolean;
   loading: boolean;
-  error: string | null;
 };
 
 export type IUserProject = {
