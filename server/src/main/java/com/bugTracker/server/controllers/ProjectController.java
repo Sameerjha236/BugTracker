@@ -43,11 +43,25 @@ public class ProjectController {
     @GetMapping("/{projectId}")
     public ResponseEntity<?> getProject(@PathVariable String projectId) {
         Optional<ProjectModel> projectOpt = projectService.getProject(projectId);
-
         return projectOpt.<ResponseEntity<?>>map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("Project with ID " + projectId + " not found"));
     }
+
+    @GetMapping("/{projectId}/role/{userId}")
+    public ResponseEntity<?> getUserRole(
+            @PathVariable String projectId,
+            @PathVariable String userId
+    ) {
+        String role = userProjectService.getUserRole(userId, projectId);
+        if (role == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("User not part of this project");
+        }
+        return ResponseEntity.ok(Map.of("role", role));
+    }
+
+
 
     // ✅ Get all projects for a user (returns [] if none)
     @GetMapping("/user/{userId}")

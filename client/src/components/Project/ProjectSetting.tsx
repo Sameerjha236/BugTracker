@@ -1,26 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  Button,
-  Card,
-  Flex,
-  message,
-  Modal,
-  Space,
-  Tooltip,
-  Typography,
-} from "antd";
+import { Button, Card, Flex, message, Space, Tooltip, Typography } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import {
-  deleteProject,
-  getProjectDetails,
-  updateProject,
-} from "../../utils/ProjectUtil";
+import { getProjectDetails, updateProject } from "../../utils/ProjectUtil";
 import type { ICreateProject } from "../../types/IProjectState";
 import EditableText from "../Common/EditableField/EditableText";
-import { useState } from "react";
 import FieldRow from "../Common/FieldRow";
+import ProjectDeleteModal from "./ProjectDeleteModal";
 
 const { Title, Text } = Typography;
 
@@ -28,7 +15,6 @@ const ProjectSetting = () => {
   const { id: projectId } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const {
     data: projectDetail,
@@ -52,15 +38,6 @@ const ProjectSetting = () => {
     },
   });
 
-  const deleteMutation = useMutation({
-    mutationFn: () => deleteProject(projectId || ""),
-    onSuccess: () => {
-      message.success("Project deleted");
-      queryClient.invalidateQueries({ queryKey: ["projects"] });
-      navigate("/", { replace: true });
-    },
-  });
-
   if (isLoading) return <div>Loading project...</div>;
   if (isError) return <div>Failed to load project</div>;
   if (!projectDetail) return <div>No project found</div>;
@@ -76,7 +53,7 @@ const ProjectSetting = () => {
               onClick={() => navigate(-1)}
             />
           </Tooltip>
-          <Title level={2}>Project Settings</Title>
+          <Title level={2}>Project Settings </Title>
         </Flex>
 
         {/* Project Details */}
@@ -111,29 +88,7 @@ const ProjectSetting = () => {
             </FieldRow>
           </Space>
         </Card>
-
-        {/* Danger Zone */}
-        <Card title="Danger Zone" styles={{ header: { color: "#ff4d4f" } }}>
-          <Button danger onClick={() => setOpenDeleteModal(true)}>
-            Delete Project
-          </Button>
-        </Card>
-        <Modal
-          title="Delete Project"
-          open={openDeleteModal}
-          onOk={() => deleteMutation.mutate()}
-          onCancel={() => setOpenDeleteModal(false)}
-          okText="Delete"
-          okButtonProps={{
-            danger: true,
-          }}
-        >
-          <Text>
-            Are you sure you want to delete this project?
-            <br />
-            <strong>This action cannot be undone.</strong>
-          </Text>
-        </Modal>
+        <ProjectDeleteModal />
       </Space>
     </Content>
   );

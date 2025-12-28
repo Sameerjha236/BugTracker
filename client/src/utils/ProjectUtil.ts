@@ -14,6 +14,12 @@ export const getProjectsForUser = async (userId: string) => {
   }
 };
 
+export const getProjectRole = async (projectId: string, userId: string) => {
+  const path = `${RootProjectPath}${projectId}/role/${userId}`;
+  const res = await axios.get(path);
+  return res.data.role; // ✅ matches backend
+};
+
 export const getProjectDetails = async (projectId: string) => {
   const path = RootProjectPath + projectId;
   try {

@@ -1,6 +1,12 @@
 import { Card, Space, Typography } from "antd";
+import type { IIssue } from "../../types/IIssueState";
 
-const IssueSidebar = ({ issue }) => {
+type IssueSidebarProps = {
+  issue: IIssue;
+};
+
+const IssueSidebar = ({ issue }: IssueSidebarProps) => {
+  console.info("IssueSidebar issue:", issue);
   return (
     <Space direction="vertical" size="large" style={{ width: "100%" }}>
       <Card title="Details">

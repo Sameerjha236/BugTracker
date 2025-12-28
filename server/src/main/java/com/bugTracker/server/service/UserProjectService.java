@@ -24,6 +24,13 @@ public class UserProjectService {
         this.userRepository = userRepository;
     }
 
+    public String getUserRole(String userId, String projectId) {
+        return userProjectRepository
+                .findByUserIdAndProjectId(userId, projectId)
+                .map(UserProjectModel::getRole)
+                .orElse(null);
+    }
+
     public void addRelation(String user_id, String project_id, String role) {
         UserProjectModel userProjectModel = new UserProjectModel(user_id,project_id,role);
         userProjectRepository.save(userProjectModel);
