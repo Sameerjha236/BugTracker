@@ -13,6 +13,7 @@ const IssueHeader = ({ issue, mutate }: IssueHeaderProps) => {
     mutate({ updatedFields: { title: newTitle } });
   };
 
+  console.log("Rendering IssueHeader with issue:", issue);
   return (
     <Card>
       <Space direction="vertical" style={{ width: "100%" }}>
@@ -35,7 +36,9 @@ const IssueHeader = ({ issue, mutate }: IssueHeaderProps) => {
         />
 
         <Space>
-          <Tag color="green">Assignee: {issue.assigneeId || "Unassigned"}</Tag>
+          <Tag color="green">
+            Assignee: {issue.assignee?.name || "Unassigned"}
+          </Tag>
         </Space>
       </Space>
     </Card>

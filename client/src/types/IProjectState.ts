@@ -1,3 +1,5 @@
+import type { IUserInfo } from "./IUserState";
+
 export type ICreateProject = {
   name: string;
   description: string;
@@ -6,4 +8,11 @@ export type ICreateProject = {
 
 export type IProjectLayoutProps = {
   projectId: string;
+};
+
+export type IProjectState = {
+  projectId: string;
+  name: string;
+  description: string;
+  owner: IUserInfo;
 };

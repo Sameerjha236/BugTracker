@@ -1,30 +1,23 @@
-package com.bugTracker.server.dao;
+package com.bugTracker.server.dto.comment;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.bugTracker.server.dto.userDetails.UserDTO;
 
-import java.util.UUID;
-
-@Entity
-@Table(name = "comments")
-public class CommentModel {
-    @Id
+public class CommentDetailDTO {
     String commentId;
     String issueId;
-    String userId;
     String text;
     String createdAt;
+    UserDTO author;
 
-    public CommentModel() {
+    public CommentDetailDTO() {
     }
 
-    public CommentModel(String issueId, String userId, String text, String createdAt) {
-        this.commentId = UUID.randomUUID().toString();
+    public CommentDetailDTO(String commentId, String issueId, String text, String createdAt, UserDTO author) {
+        this.commentId = commentId;
         this.issueId = issueId;
-        this.userId = userId;
         this.text = text;
         this.createdAt = createdAt;
+        this.author = author;
     }
 
     public String getCommentId() {
@@ -43,14 +36,6 @@ public class CommentModel {
         this.issueId = issueId;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
     public String getText() {
         return text;
     }
@@ -65,5 +50,13 @@ public class CommentModel {
 
     public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public UserDTO getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(UserDTO author) {
+        this.author = author;
     }
 }

@@ -33,7 +33,7 @@ public class CommentController {
 
     @GetMapping("/{commentId}")
     public ResponseEntity<?> getComment(@PathVariable String commentId) {
-        return commentService.getComment(commentId)
+        return commentService.getCommentDetails(commentId)
                 .<ResponseEntity<?>>map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("Comment with ID " + commentId + " not found"));

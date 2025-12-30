@@ -1,4 +1,4 @@
-package com.bugTracker.server.dto;
+package com.bugTracker.server.dto.userDetails;
 
 //{
 //        "email":"s@gmail.com",
@@ -6,12 +6,12 @@ package com.bugTracker.server.dto;
 //        "name":"sameer"
 //        }
 
-public class Signupdto {
+public class SignupDTO {
     private String email;
     private String password;
     private String name;
 
-    public Signupdto(String email, String password, String name) {
+    public SignupDTO(String email, String password, String name) {
         this.email = email;
         this.password = password;
         this.name = name;

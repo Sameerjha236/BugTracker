@@ -2,7 +2,7 @@ package com.bugTracker.server.service;
 
 import com.bugTracker.server.dao.UserModel;
 import com.bugTracker.server.dao.UserProjectModel;
-import com.bugTracker.server.dto.UserSearchResponseDto;
+import com.bugTracker.server.dto.UserSearchResponseDTO;
 import com.bugTracker.server.repository.UserProjectRepository;
 import com.bugTracker.server.repository.UserRepository;
 import com.bugTracker.server.utils.PasswordUtils;
@@ -78,7 +78,7 @@ public class UserService {
     }
 
     // ---------- Get users ----------------
-    public List<UserSearchResponseDto> searchUsersNotInProject(String projectId, String query) {
+    public List<UserSearchResponseDTO> searchUsersNotInProject(String projectId, String query) {
         query = query.trim();
         List<UserModel> matchedUsers = userRepo.findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(query, query);
         System.out.println("Matched users size: " + matchedUsers.size());
@@ -87,14 +87,14 @@ public class UserService {
         Set<String> projectUserIds = userProjectRepository.findByProjectId(projectId).stream().map(UserProjectModel::getUserId).collect(Collectors.toSet());
         return matchedUsers.stream()
                 .filter(user -> !projectUserIds.contains(user.getUserId()))
-                .map(user -> new UserSearchResponseDto(
+                .map(user -> new UserSearchResponseDTO(
                         user.getUserId(),
                         user.getName(),
                         user.getEmail()
                 ))
                 .toList();
     }
-    
+
     public Optional<UserModel> getUserDetails(String user_id) {
         return userRepo.findById(user_id);
     }

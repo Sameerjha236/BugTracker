@@ -1,28 +1,34 @@
-package com.bugTracker.server.dto;
+package com.bugTracker.server.dto.issue;
 
-public class CreateIssuedto {
-    private String projectId;
+import com.bugTracker.server.dto.userDetails.UserDTO;
+
+public class IssueDetailDTO {
+    private String issueId;
     private String title;
     private String description;
     private String status;
-    private String assigneeId;
     private String priority;
+    private UserDTO assignee;
 
-    public CreateIssuedto(String projectId, String title, String description, String status, String assigneeId, String priority) {
-        this.projectId = projectId;
+    public IssueDetailDTO(String issueId, String title, String description, String status, String priority, UserDTO assignee) {
+        this.issueId = issueId;
         this.title = title;
         this.description = description;
         this.status = status;
-        this.assigneeId = assigneeId;
         this.priority = priority;
+        this.assignee = assignee;
     }
 
-    public String getProjectId() {
-        return projectId;
+    public IssueDetailDTO() {
+
     }
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId;
+    public String getIssueId() {
+        return issueId;
+    }
+
+    public void setIssueId(String issueId) {
+        this.issueId = issueId;
     }
 
     public String getTitle() {
@@ -49,19 +55,19 @@ public class CreateIssuedto {
         this.status = status;
     }
 
-    public String getAssigneeId() {
-        return assigneeId;
-    }
-
-    public void setAssigneeId(String assigneeId) {
-        this.assigneeId = assigneeId;
-    }
-
     public String getPriority() {
         return priority;
     }
 
     public void setPriority(String priority) {
         this.priority = priority;
+    }
+
+    public UserDTO getAssignee() {
+        return assignee;
+    }
+
+    public void setAssignee(UserDTO assignee) {
+        this.assignee = assignee;
     }
 }

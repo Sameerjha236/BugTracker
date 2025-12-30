@@ -1,3 +1,5 @@
+import type { IUserInfo } from "./IUserState";
+
 export type IIssue = {
   issueId: string;
   projectId: string;
@@ -5,7 +7,7 @@ export type IIssue = {
   description: string;
   status: "open" | "in progress" | "resolved" | "in review" | "closed";
   priority: "low" | "medium" | "high" | "critical";
-  assigneeId: string;
+  assignee: IUserInfo;
   createdAt: string;
 };
 

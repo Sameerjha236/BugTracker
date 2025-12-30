@@ -1,10 +1,10 @@
-package com.bugTracker.server.dto;
+package com.bugTracker.server.dto.userDetails;
 
-public class Logindto {
+public class LoginDTO {
     private String email;
     private String password;
 
-    public Logindto(String email, String password) {
+    public LoginDTO(String email, String password) {
         this.email = email;
         this.password = password;
     }

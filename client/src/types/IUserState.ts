@@ -10,19 +10,13 @@ export type IUserRegisterCredentials = {
 };
 
 export type IUserInfo = {
+  userId: string | null;
   name: string | null;
   email: string | null;
-  userId: string | null;
 };
 
 export type IUserState = {
   userInfo: IUserInfo;
   loggedIn: boolean;
   loading: boolean;
-};
-
-export type IUserProject = {
-  name: string;
-  owner: string;
-  projectId: string;
 };

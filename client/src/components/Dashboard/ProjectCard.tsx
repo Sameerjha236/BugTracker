@@ -1,10 +1,11 @@
 import { Card, Flex, Typography } from "antd";
-import type { IUserProject } from "../../types/IUserState";
+
 import { Link } from "react-router-dom";
+import type { IProjectState } from "../../types/IProjectState";
 
 const { Title } = Typography;
 
-const ProjectCard = (project: IUserProject) => {
+const ProjectCard = (project: IProjectState) => {
   return (
     <Link to={`/project/${project.projectId}`}>
       <Card hoverable>
@@ -12,7 +13,6 @@ const ProjectCard = (project: IUserProject) => {
           <Title level={5} style={{ margin: 0 }}>
             {project.name}
           </Title>
-          {/* <Text>Owned by: {project.owner}</Text> */}
         </Flex>
       </Card>
     </Link>

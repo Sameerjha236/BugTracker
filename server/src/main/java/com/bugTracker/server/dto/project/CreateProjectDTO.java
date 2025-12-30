@@ -1,11 +1,11 @@
-package com.bugTracker.server.dto;
+package com.bugTracker.server.dto.project;
 
-public class CreateProjectdto {
+public class CreateProjectDTO {
     String name;
     String description;
     String owner;
 
-    public CreateProjectdto(String name, String description, String createdBy) {
+    public CreateProjectDTO(String name, String description, String createdBy) {
         this.name = name;
         this.description = description;
         this.owner = createdBy;

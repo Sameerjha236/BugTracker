@@ -1,22 +1,26 @@
-package com.bugTracker.server.dto;
+package com.bugTracker.server.dto.userDetails;
 
-public class UserSearchResponseDTO {
-    private String user_id;
+public class UserDTO {
+    private String userId;
     private String name;
     private String email;
 
-    public UserSearchResponseDTO(String user_id, String name, String email) {
-        this.user_id = user_id;
+    public UserDTO() {
+
+    }
+
+    public UserDTO(String userId, String name, String email) {
+        this.userId = userId;
         this.name = name;
         this.email = email;
     }
 
-    public String getUser_id() {
-        return user_id;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {

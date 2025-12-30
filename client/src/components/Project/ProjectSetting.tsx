@@ -86,6 +86,10 @@ const ProjectSetting = () => {
                 )}
               />
             </FieldRow>
+
+            <FieldRow label="Owner">
+              <Text>{projectDetail.owner.name}</Text>
+            </FieldRow>
           </Space>
         </Card>
         <ProjectDeleteModal />

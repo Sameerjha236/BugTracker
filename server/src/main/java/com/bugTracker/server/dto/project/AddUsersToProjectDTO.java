@@ -1,10 +1,10 @@
-package com.bugTracker.server.dto;
+package com.bugTracker.server.dto.project;
 
-public class AddUsersToProjectdto {
+public class AddUsersToProjectDTO {
     private String user_id;
     private String role;
 
-    public AddUsersToProjectdto(String user_id, String role) {
+    public AddUsersToProjectDTO(String user_id, String role) {
         this.user_id = user_id;
         this.role = role;
     }

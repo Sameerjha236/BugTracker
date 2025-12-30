@@ -4,7 +4,7 @@ import { getProjectsForUser } from "../../utils/ProjectUtil";
 import CardLoader from "../Common/CardLoader";
 import { useQuery } from "@tanstack/react-query";
 import { useAppSelector } from "../../hooks/storeHook";
-import type { IUserProject } from "../../types/IUserState";
+import type { IProjectState } from "../../types/IProjectState";
 
 const ProjectCard = lazy(() => import("./ProjectCard"));
 const NewProject = lazy(() => import("./NewProject"));
@@ -46,7 +46,7 @@ const DashboardLayout = () => {
         </Suspense>
       </Flex>
       <Row gutter={[16, 16]}>
-        {projects?.map((project: IUserProject) => (
+        {projects?.map((project: IProjectState) => (
           <Col xs={24} sm={12} md={8} lg={6} key={project.projectId}>
             <Suspense fallback={<CardLoader />}>
               <ProjectCard {...project} />

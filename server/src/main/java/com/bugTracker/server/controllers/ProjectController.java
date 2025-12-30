@@ -1,8 +1,9 @@
 package com.bugTracker.server.controllers;
 
 import com.bugTracker.server.dao.ProjectModel;
-import com.bugTracker.server.dto.AddUsersToProjectdto;
-import com.bugTracker.server.dto.CreateProjectdto;
+import com.bugTracker.server.dto.project.AddUsersToProjectDTO;
+import com.bugTracker.server.dto.project.CreateProjectDTO;
+import com.bugTracker.server.dto.project.ProjectDetailsDTO;
 import com.bugTracker.server.service.ProjectService;
 import com.bugTracker.server.service.UserProjectService;
 import com.bugTracker.server.service.UserService;
@@ -31,7 +32,7 @@ public class ProjectController {
 
     //  Create Project
     @PostMapping("/create")
-    public ResponseEntity<String> createProject(@RequestBody CreateProjectdto request) {
+    public ResponseEntity<String> createProject(@RequestBody CreateProjectDTO request) {
         String projectId = projectService.createProject(
                 request.getName(),
                 request.getDescription(),
@@ -45,7 +46,8 @@ public class ProjectController {
     //  Get single project by ID
     @GetMapping("/{projectId}")
     public ResponseEntity<?> getProject(@PathVariable String projectId) {
-        Optional<ProjectModel> projectOpt = projectService.getProject(projectId);
+        Optional<ProjectDetailsDTO> projectOpt = projectService.getProjectDetails(projectId);
+//        Optional<ProjectModel> projectOpt = projectService.getProject(projectId);
         return projectOpt.<ResponseEntity<?>>map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body("Project with ID " + projectId + " not found"));
@@ -101,7 +103,7 @@ public class ProjectController {
     @PostMapping("/{projectId}/addUser")
     public ResponseEntity<String> addUser(
             @PathVariable String projectId,
-            @RequestBody AddUsersToProjectdto request) {
+            @RequestBody AddUsersToProjectDTO request) {
 
         userProjectService.addRelation(request.getUser_id(), projectId, request.getRole());
         return ResponseEntity.ok("User added to the project");
@@ -111,7 +113,7 @@ public class ProjectController {
     @PatchMapping("/{projectId}/updateUserRole")
     public ResponseEntity<String> updateUserRole(
             @PathVariable String projectId,
-            @RequestBody AddUsersToProjectdto request) {
+            @RequestBody AddUsersToProjectDTO request) {
 
         userProjectService.updateRole(request.getUser_id(), projectId, request.getRole());
         return ResponseEntity.ok("User role updated successfully");

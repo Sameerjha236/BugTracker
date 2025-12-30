@@ -1,6 +1,6 @@
 package com.bugTracker.server.controllers;
 
-import com.bugTracker.server.dto.CreateIssuedto;
+import com.bugTracker.server.dto.issue.CreateIssueDTO;
 import com.bugTracker.server.service.IssueService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,16 +19,16 @@ public class IssueController {
         this.issueService = issueService;
     }
 
-    // ✅ Get all issues for a project (returns [] if none)
+    //   Get all issues for a project (returns [] if none)
     @GetMapping("/project/{projectId}")
     public ResponseEntity<?> getIssuesByProject(@PathVariable String projectId) {
         var issues = issueService.getIssuesByProjectId(projectId);
         return ResponseEntity.ok(issues == null ? Collections.emptyList() : issues);
     }
 
-    // ✅ Create a new issue
+    //   Create a new issue
     @PostMapping("/create")
-    public ResponseEntity<String> createIssue(@RequestBody CreateIssuedto request) {
+    public ResponseEntity<String> createIssue(@RequestBody CreateIssueDTO request) {
         System.out.println("reached here");
         String issueId = issueService.createIssue(
                 request.getProjectId(),
@@ -42,7 +42,7 @@ public class IssueController {
                 .body("Issue created with ID: " + issueId);
     }
 
-    // ✅ Update issue details
+    //   Update issue details
     @PatchMapping("/update/{issueId}")
     public ResponseEntity<String> updateIssue(
             @PathVariable String issueId,
@@ -57,16 +57,18 @@ public class IssueController {
                     .body("Issue with ID " + issueId + " not found");
     }
 
-    // ✅ Get single issue by ID
+    //   Get single issue by ID
     @GetMapping("/{issueId}")
     public ResponseEntity<?> getIssue(@PathVariable String issueId) {
-        return issueService.getIssue(issueId)
+        return issueService.getIssueDetail(issueId)
                 .<ResponseEntity<?>>map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body("Issue with ID " + issueId + " not found"));
+                .orElseGet(() ->
+                        ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                .body("Issue with ID " + issueId + " not found")
+                );
     }
 
-    // ✅ Delete an issue
+    //   Delete an issue
     @DeleteMapping("/{issueId}")
     public ResponseEntity<String> deleteIssue(@PathVariable String issueId) {
         boolean deleted = issueService.deleteIssue(issueId);

@@ -37,18 +37,20 @@ const IssueComments = ({ issueId }: IssueCommentsProps) => {
         size="large"
         style={{ width: "100%", marginTop: 16 }}
       >
-        {comments.map((comment: IComment) => (
+        {comments?.map((comment: IComment) => (
           <Card
             key={comment.commentId}
             size="small"
             styles={{ body: { padding: "12px 16px" } }}
           >
             <Flex align="start" gap={12}>
-              <Avatar>{comment.userId.charAt(0).toUpperCase()}</Avatar>
+              <Avatar>
+                {(comment.author?.name || "").charAt(0).toUpperCase()}
+              </Avatar>
 
               <Flex vertical style={{ width: "100%" }}>
                 <Flex justify="space-between" align="center">
-                  <Text strong>{comment.userId}</Text>
+                  <Text strong>{comment.author?.name}</Text>
                   <Text type="secondary" style={{ fontSize: 12 }}>
                     {dayjs(comment.createdAt).format("DD MMM YYYY, HH:mm")}
                   </Text>
