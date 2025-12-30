@@ -8,6 +8,8 @@ import java.util.Optional;
 
 public interface UserProjectRepository extends JpaRepository<UserProjectModel, String> {
     Optional<UserProjectModel> findByUserIdAndProjectId(String userId, String projectId);
+
     List<UserProjectModel> findByUserId(String userId);
+
     List<UserProjectModel> findByProjectId(String projectId);
 }

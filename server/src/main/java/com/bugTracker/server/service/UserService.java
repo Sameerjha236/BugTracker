@@ -1,22 +1,26 @@
 package com.bugTracker.server.service;
 
 import com.bugTracker.server.dao.UserModel;
+import com.bugTracker.server.dao.UserProjectModel;
+import com.bugTracker.server.dto.UserSearchResponseDto;
+import com.bugTracker.server.repository.UserProjectRepository;
 import com.bugTracker.server.repository.UserRepository;
 import com.bugTracker.server.utils.PasswordUtils;
 import com.bugTracker.server.utils.ValidationUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepo;
+    private final UserProjectRepository userProjectRepository;
 
-    public UserService(UserRepository userRepo) {
+    public UserService(UserRepository userRepo, UserProjectRepository userProjectRepository) {
         this.userRepo = userRepo;
+        this.userProjectRepository = userProjectRepository;
     }
 
     // ------------------- LOGIN -------------------
@@ -73,6 +77,24 @@ public class UserService {
         userRepo.save(user);
     }
 
+    // ---------- Get users ----------------
+    public List<UserSearchResponseDto> searchUsersNotInProject(String projectId, String query) {
+        query = query.trim();
+        List<UserModel> matchedUsers = userRepo.findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(query, query);
+        System.out.println("Matched users size: " + matchedUsers.size());
+        matchedUsers.forEach(u -> System.out.println(u.getEmail()));
+
+        Set<String> projectUserIds = userProjectRepository.findByProjectId(projectId).stream().map(UserProjectModel::getUserId).collect(Collectors.toSet());
+        return matchedUsers.stream()
+                .filter(user -> !projectUserIds.contains(user.getUserId()))
+                .map(user -> new UserSearchResponseDto(
+                        user.getUserId(),
+                        user.getName(),
+                        user.getEmail()
+                ))
+                .toList();
+    }
+    
     public Optional<UserModel> getUserDetails(String user_id) {
         return userRepo.findById(user_id);
     }

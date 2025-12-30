@@ -1,5 +1,6 @@
 package com.bugTracker.server.dao;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -11,7 +12,8 @@ import java.util.UUID;
 public class UserModel {
 
     @Id
-    private String user_id;
+    @Column(name = "user_id")
+    private String userId;
 
     private String name;
 
@@ -24,7 +26,7 @@ public class UserModel {
     }
 
     public UserModel(String name, String email, String password) {
-        this.user_id = UUID.randomUUID().toString();
+        this.userId = UUID.randomUUID().toString();
         this.name = name;
         this.email = email;
         this.password = password;
@@ -32,11 +34,11 @@ public class UserModel {
 
 
     public String getUserId() {
-        return user_id;
+        return userId;
     }
 
-    public void setUserId(String user_id) {
-        this.user_id = user_id;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getName() {

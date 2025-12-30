@@ -1,10 +1,11 @@
 package com.bugTracker.server.controllers;
 
+import com.bugTracker.server.dao.ProjectModel;
 import com.bugTracker.server.dto.AddUsersToProjectdto;
 import com.bugTracker.server.dto.CreateProjectdto;
-import com.bugTracker.server.dao.ProjectModel;
 import com.bugTracker.server.service.ProjectService;
 import com.bugTracker.server.service.UserProjectService;
+import com.bugTracker.server.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,13 +21,15 @@ public class ProjectController {
 
     private final ProjectService projectService;
     private final UserProjectService userProjectService;
+    private final UserService userService;
 
-    public ProjectController(ProjectService projectService, UserProjectService userProjectService) {
+    public ProjectController(ProjectService projectService, UserProjectService userProjectService, UserService userService) {
         this.projectService = projectService;
         this.userProjectService = userProjectService;
+        this.userService = userService;
     }
 
-    // ✅ Create Project
+    //  Create Project
     @PostMapping("/create")
     public ResponseEntity<String> createProject(@RequestBody CreateProjectdto request) {
         String projectId = projectService.createProject(
@@ -39,7 +42,7 @@ public class ProjectController {
                 .body("Project has been created with ID: " + projectId);
     }
 
-    // ✅ Get single project by ID
+    //  Get single project by ID
     @GetMapping("/{projectId}")
     public ResponseEntity<?> getProject(@PathVariable String projectId) {
         Optional<ProjectModel> projectOpt = projectService.getProject(projectId);
@@ -62,15 +65,14 @@ public class ProjectController {
     }
 
 
-
-    // ✅ Get all projects for a user (returns [] if none)
+    // Get all projects for a user (returns [] if none)
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<ProjectModel>> getProjectsForUser(@PathVariable String userId) {
         List<ProjectModel> projects = userProjectService.getProjectsForUser(userId);
         return ResponseEntity.ok(projects == null ? Collections.emptyList() : projects);
     }
 
-    // ✅ Update project details (PATCH)
+    // Update project details (PATCH)
     @PatchMapping("/update/{projectId}")
     public ResponseEntity<String> updateProject(
             @PathVariable String projectId,
@@ -84,7 +86,7 @@ public class ProjectController {
                     .body("Project with ID " + projectId + " not found");
     }
 
-    // ✅ Delete project
+    // Delete project
     @DeleteMapping("/{projectId}")
     public ResponseEntity<String> deleteProject(@PathVariable String projectId) {
         boolean deleted = projectService.deleteProject(projectId);
@@ -95,7 +97,7 @@ public class ProjectController {
                     .body("Project with ID " + projectId + " not found");
     }
 
-    // ✅ Add user to project
+    // Add user to project
     @PostMapping("/{projectId}/addUser")
     public ResponseEntity<String> addUser(
             @PathVariable String projectId,
@@ -105,7 +107,7 @@ public class ProjectController {
         return ResponseEntity.ok("User added to the project");
     }
 
-    // ✅ Update user role in project
+    // Update user role in project
     @PatchMapping("/{projectId}/updateUserRole")
     public ResponseEntity<String> updateUserRole(
             @PathVariable String projectId,
@@ -115,7 +117,7 @@ public class ProjectController {
         return ResponseEntity.ok("User role updated successfully");
     }
 
-    // ✅ Remove user from project
+    // Remove user from project
     @DeleteMapping("/{projectId}/removeUser")
     public ResponseEntity<String> removeUser(
             @PathVariable String projectId,
@@ -123,5 +125,15 @@ public class ProjectController {
 
         userProjectService.removeUserFromProject(userId, projectId);
         return ResponseEntity.ok("User removed from project");
+    }
+
+    @GetMapping("/{projectId}/search-users")
+    public ResponseEntity<?> searchUsers(
+            @PathVariable String projectId,
+            @RequestParam String q
+    ) {
+        return ResponseEntity.ok(
+                userService.searchUsersNotInProject(projectId, q)
+        );
     }
 }
