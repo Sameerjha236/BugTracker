@@ -3,13 +3,15 @@ package com.bugTracker.server.service;
 import com.bugTracker.server.dao.ProjectModel;
 import com.bugTracker.server.dao.UserModel;
 import com.bugTracker.server.dao.UserProjectModel;
+import com.bugTracker.server.dto.UserSearchResponseDTO;
 import com.bugTracker.server.repository.ProjectRepository;
 import com.bugTracker.server.repository.UserProjectRepository;
 import com.bugTracker.server.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserProjectService {
@@ -32,13 +34,13 @@ public class UserProjectService {
     }
 
     public void addRelation(String user_id, String project_id, String role) {
-        UserProjectModel userProjectModel = new UserProjectModel(user_id,project_id,role);
+        UserProjectModel userProjectModel = new UserProjectModel(user_id, project_id, role);
         userProjectRepository.save(userProjectModel);
     }
 
     public void updateRole(String user_id, String project_id, String role) {
-        Optional<UserProjectModel> up = userProjectRepository.findByUserIdAndProjectId(user_id,project_id);
-        if(up.isEmpty()) {
+        Optional<UserProjectModel> up = userProjectRepository.findByUserIdAndProjectId(user_id, project_id);
+        if (up.isEmpty()) {
             return;
         }
         UserProjectModel userProject = up.get();
@@ -47,8 +49,8 @@ public class UserProjectService {
     }
 
     public void removeUserFromProject(String user_id, String project_id) {
-        Optional<UserProjectModel> up = userProjectRepository.findByUserIdAndProjectId(user_id,project_id);
-        if(up.isEmpty()) {
+        Optional<UserProjectModel> up = userProjectRepository.findByUserIdAndProjectId(user_id, project_id);
+        if (up.isEmpty()) {
             return;
         }
         UserProjectModel userProject = up.get();
@@ -69,37 +71,20 @@ public class UserProjectService {
         return projectRepository.findAllById(projectIds);
     }
 
-    public List<Map<String, Object>> getUsersForProject(String projectId) {
-        List<UserProjectModel> relations = userProjectRepository.findByProjectId(projectId);
+    public List<UserSearchResponseDTO> getUsersForProject(String projectId, String query) {
+        String searchTrimmed = (query == null) ? "" : query.trim();
 
-        if (relations.isEmpty()) {
-            return List.of();
-        }
+        // One DB call retrieves exactly who we need
+        List<UserModel> users = userRepository.searchMembersByProject(projectId, searchTrimmed);
 
-        List<String> userIds = relations.stream()
-                .map(UserProjectModel::getUserId)
-                .collect(Collectors.toList());
-
-        List<UserModel> users = userRepository.findAllById(userIds);
-
-        // Combine user details + their project role
-        List<Map<String, Object>> userDetails = new ArrayList<>();
-
-        for (UserModel user : users) {
-            Optional<UserProjectModel> relation = relations.stream()
-                    .filter(r -> r.getUserId().equals(user.getUserId()))
-                    .findFirst();
-
-            Map<String, Object> userData = new HashMap<>();
-            userData.put("userId", user.getUserId());
-            userData.put("name", user.getName());
-            userData.put("email", user.getEmail());
-            userData.put("role", relation.map(UserProjectModel::getRole).orElse("member"));
-
-            userDetails.add(userData);
-        }
-        return userDetails;
+        return users.stream()
+                .map(user -> {
+                    UserSearchResponseDTO dto = new UserSearchResponseDTO();
+                    dto.setUserId(user.getUserId());
+                    dto.setName(user.getName());
+                    dto.setEmail(user.getEmail());
+                    return dto;
+                })
+                .toList();
     }
-
-
 }

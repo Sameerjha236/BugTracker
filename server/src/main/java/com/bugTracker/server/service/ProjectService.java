@@ -55,7 +55,6 @@ public class ProjectService {
         return Optional.of(dto);
     }
 
-
     public boolean updateProject(String projectId, Map<String, Object> updates) {
         Optional<ProjectModel> optionalProject = projectRepository.findById(projectId);
         if (optionalProject.isEmpty()) return false;
@@ -88,6 +87,4 @@ public class ProjectService {
     public List<ProjectModel> getAllProjects() {
         return projectRepository.findAll();
     }
-
-
 }

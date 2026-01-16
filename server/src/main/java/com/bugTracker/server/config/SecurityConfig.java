@@ -2,7 +2,6 @@ package com.bugTracker.server.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.SecurityFilterChain;
@@ -11,7 +10,6 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Arrays;
-import java.util.List;
 
 @Configuration
 public class SecurityConfig {
@@ -22,15 +20,12 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.GET, "/api/project/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/project/**").permitAll()
-                        .requestMatchers(HttpMethod.PATCH, "/api/project/**").permitAll()
-                        .requestMatchers(HttpMethod.DELETE, "/api/project/**").permitAll()
-
+                        .requestMatchers("/api/project/**").permitAll()
                         .requestMatchers("/api/user/**").permitAll()
                         .requestMatchers("/api/issue/**").permitAll()
                         .requestMatchers("/api/comment/**").permitAll()
-
+                        .requestMatchers("swagger-ui/**").permitAll()
+                        .requestMatchers("v3/**").permitAll()
                         .anyRequest().authenticated()
                 );
 

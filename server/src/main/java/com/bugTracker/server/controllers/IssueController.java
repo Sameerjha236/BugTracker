@@ -2,6 +2,11 @@ package com.bugTracker.server.controllers;
 
 import com.bugTracker.server.dto.issue.CreateIssueDTO;
 import com.bugTracker.server.service.IssueService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +16,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/issue")
+@Tag(name = "Issue Management", description = "Endpoints for handling bug reports and task tracking")
 public class IssueController {
 
     private final IssueService issueService;
@@ -19,17 +25,17 @@ public class IssueController {
         this.issueService = issueService;
     }
 
-    //   Get all issues for a project (returns [] if none)
+    @Operation(summary = "Get all issues for a project", description = "Returns an array of issues. Returns an empty list if no issues are found.")
     @GetMapping("/project/{projectId}")
     public ResponseEntity<?> getIssuesByProject(@PathVariable String projectId) {
         var issues = issueService.getIssuesByProjectId(projectId);
         return ResponseEntity.ok(issues == null ? Collections.emptyList() : issues);
     }
 
-    //   Create a new issue
+    @Operation(summary = "Create a new issue", description = "Generates a new bug report or task within a specific project.")
+    @ApiResponse(responseCode = "201", description = "Issue successfully created")
     @PostMapping("/create")
     public ResponseEntity<String> createIssue(@RequestBody CreateIssueDTO request) {
-        System.out.println("reached here");
         String issueId = issueService.createIssue(
                 request.getProjectId(),
                 request.getTitle(),
@@ -42,12 +48,19 @@ public class IssueController {
                 .body("Issue created with ID: " + issueId);
     }
 
-    //   Update issue details
+    @Operation(
+            summary = "Update issue details",
+            description = "Partially updates issue fields (title, status, priority, etc.) using a map of updates.",
+            requestBody = @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    content = @Content(examples = @ExampleObject(
+                            value = "{ \"status\": \"IN_PROGRESS\", \"priority\": \"HIGH\" }"
+                    ))
+            )
+    )
     @PatchMapping("/update/{issueId}")
     public ResponseEntity<String> updateIssue(
             @PathVariable String issueId,
             @RequestBody Map<String, Object> updates) {
-        System.out.println("reached here");
         boolean updated = issueService.updateIssue(issueId, updates);
 
         if (updated)
@@ -57,7 +70,9 @@ public class IssueController {
                     .body("Issue with ID " + issueId + " not found");
     }
 
-    //   Get single issue by ID
+    @Operation(summary = "Get issue by ID", description = "Fetches detailed information for a single issue.")
+    @ApiResponse(responseCode = "200", description = "Issue found")
+    @ApiResponse(responseCode = "404", description = "Issue not found")
     @GetMapping("/{issueId}")
     public ResponseEntity<?> getIssue(@PathVariable String issueId) {
         return issueService.getIssueDetail(issueId)
@@ -68,7 +83,7 @@ public class IssueController {
                 );
     }
 
-    //   Delete an issue
+    @Operation(summary = "Delete an issue", description = "Removes an issue permanently from the system.")
     @DeleteMapping("/{issueId}")
     public ResponseEntity<String> deleteIssue(@PathVariable String issueId) {
         boolean deleted = issueService.deleteIssue(issueId);

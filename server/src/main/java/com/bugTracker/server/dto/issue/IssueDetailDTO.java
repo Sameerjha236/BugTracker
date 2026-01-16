@@ -4,13 +4,19 @@ import com.bugTracker.server.dto.userDetails.UserDTO;
 
 public class IssueDetailDTO {
     private String issueId;
+    private String projectId;
     private String title;
     private String description;
     private String status;
     private String priority;
     private UserDTO assignee;
 
-    public IssueDetailDTO(String issueId, String title, String description, String status, String priority, UserDTO assignee) {
+
+    public IssueDetailDTO() {
+
+    }
+
+    public IssueDetailDTO(String issueId, String projectId, String title, String description, String status, String priority, UserDTO assignee) {
         this.issueId = issueId;
         this.title = title;
         this.description = description;
@@ -19,16 +25,20 @@ public class IssueDetailDTO {
         this.assignee = assignee;
     }
 
-    public IssueDetailDTO() {
-
-    }
-
     public String getIssueId() {
         return issueId;
     }
 
     public void setIssueId(String issueId) {
         this.issueId = issueId;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 
     public String getTitle() {

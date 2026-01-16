@@ -40,7 +40,6 @@ const IssueActions = () => {
   return (
     <>
       <Menu mode="horizontal" items={items} onClick={handleMenuClick} />
-
       <Modal
         title="Delete Issue"
         open={openDeleteModal}

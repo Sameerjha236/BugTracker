@@ -81,7 +81,7 @@ public class UserService {
     public List<UserSearchResponseDTO> searchUsersNotInProject(String projectId, String query) {
         query = query.trim();
         List<UserModel> matchedUsers = userRepo.findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(query, query);
-        System.out.println("Matched users size: " + matchedUsers.size());
+        
         matchedUsers.forEach(u -> System.out.println(u.getEmail()));
 
         Set<String> projectUserIds = userProjectRepository.findByProjectId(projectId).stream().map(UserProjectModel::getUserId).collect(Collectors.toSet());

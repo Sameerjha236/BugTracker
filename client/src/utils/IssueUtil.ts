@@ -38,7 +38,7 @@ export const getIssueDetail = async (issueId: string) => {
 
 export const updateIssue = async (
   issueId: string,
-  updatedFields: Partial<ICreateIssue>
+  updatedFields: Partial<ICreateIssue>,
 ) => {
   const path = RootIssuePath + "update/" + issueId;
   try {

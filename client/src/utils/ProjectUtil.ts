@@ -14,10 +14,32 @@ export const getProjectsForUser = async (userId: string) => {
   }
 };
 
+export const getAllMembers = async (projectId: string, q: string) => {
+  const path = `${RootProjectPath}${projectId}/members?q=${q}`;
+  try {
+    const res = await axios.get(path);
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching project members:", error);
+    throw error;
+  }
+};
+
+export const addUserToProject = async (projectId: string, userId: string) => {
+  const path = `${RootProjectPath}${projectId}/addUser`;
+  try {
+    const res = await axios.post(path, { user_id: userId, role: "member" });
+    return res.data;
+  } catch (error) {
+    console.error("Error adding user to project:", error);
+    throw error;
+  }
+};
+
 export const getProjectRole = async (projectId: string, userId: string) => {
   const path = `${RootProjectPath}${projectId}/role/${userId}`;
   const res = await axios.get(path);
-  return res.data.role; // ✅ matches backend
+  return res.data.role;
 };
 
 export const getProjectDetails = async (projectId: string) => {
@@ -39,7 +61,7 @@ export const handleCreateProject = async (data: ICreateProject) => {
 
 export const updateProject = async (
   projectId: string,
-  updatedFields: Partial<ICreateProject>
+  updatedFields: Partial<ICreateProject>,
 ) => {
   const path = RootProjectPath + "update/" + projectId;
   try {

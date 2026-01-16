@@ -44,6 +44,7 @@ public class IssueService {
         IssueModel issue = optionalIssue.get();
 
         IssueDetailDTO dto = new IssueDetailDTO();
+        dto.setProjectId(issue.getProjectId());
         dto.setIssueId(issue.getIssueId());
         dto.setTitle(issue.getTitle());
         dto.setDescription(issue.getDescription());

@@ -1,7 +1,17 @@
-import { Card, Typography, Tag, Space, Flex } from "antd";
+import { Card, Typography, Space, Flex, Button } from "antd";
 import type { IIssue } from "../../types/IIssueState";
 import EditableText from "../Common/EditableField/EditableText";
 import IssueActions from "./IssueActions";
+import EditableOptions from "../Common/EditableField/EditableOptions";
+import {
+  priorityColors,
+  priorityOptions,
+  statusColors,
+  statusOptions,
+} from "../../ Constants";
+import EditableAssignee from "./EditableAssignee";
+import { updateIssue } from "../../utils/IssueUtil";
+import { getAllMembers } from "../../utils/ProjectUtil";
 
 type IssueHeaderProps = {
   issue: IIssue;
@@ -13,14 +23,43 @@ const IssueHeader = ({ issue, mutate }: IssueHeaderProps) => {
     mutate({ updatedFields: { title: newTitle } });
   };
 
-  console.log("Rendering IssueHeader with issue:", issue);
+  const handleStatusChange = (newStatus: string) => {
+    mutate({ updatedFields: { status: newStatus as IIssue["status"] } });
+  };
+
+  const handlePriorityChange = (newPriority: string) => {
+    mutate({ updatedFields: { priority: newPriority as IIssue["priority"] } });
+  };
+
+  const statusColor = statusColors[issue.status];
+  const priorityColor = priorityColors[issue.priority];
+
+  const handleSelect = async (query: string) => {
+    updateIssue(issue.issueId, { assigneeId: query });
+  };
+
+  const handleSearch = async (query: string) => {
+    const data = await getAllMembers(issue.projectId, query);
+    return data;
+  };
+
   return (
     <Card>
       <Space direction="vertical" style={{ width: "100%" }}>
         <Flex justify="space-between" style={{ width: "100%" }}>
           <Space>
-            <Tag color="blue">{issue.status}</Tag>
-            <Tag color="red">{issue.priority}</Tag>
+            <EditableOptions
+              value={issue.status}
+              options={statusOptions}
+              onChange={handleStatusChange}
+              color={statusColor}
+            />
+            <EditableOptions
+              value={issue.priority}
+              options={priorityOptions}
+              onChange={handlePriorityChange}
+              color={priorityColor}
+            />
           </Space>
           <IssueActions />
         </Flex>
@@ -34,12 +73,20 @@ const IssueHeader = ({ issue, mutate }: IssueHeaderProps) => {
             </Typography.Title>
           )}
         />
+        <EditableAssignee
+          assigneeName={issue.assignee?.name || null}
+          handleSearch={handleSearch}
+          handleSelect={handleSelect}
+        />
 
-        <Space>
-          <Tag color="green">
-            Assignee: {issue.assignee?.name || "Unassigned"}
-          </Tag>
-        </Space>
+        <Button
+          onClick={() => {
+            console.log(issue);
+            getAllMembers(issue.projectId, "");
+          }}
+        >
+          check
+        </Button>
       </Space>
     </Card>
   );
