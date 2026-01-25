@@ -2,12 +2,13 @@ import { Space, Tag, Button } from "antd";
 import { useState } from "react";
 import SearchAndSelect from "../Common/EditableField/SearchAndSelect";
 import { Content } from "antd/es/layout/layout";
+import type { IUserInfo } from "../../types/IUserState";
 
 type EditableAssigneeProps = {
   assigneeName: string | null;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleSearch: (value: string) => Promise<any>;
-  handleSelect: (userId: string) => void;
+  handleSelect: (user: IUserInfo) => void;
 };
 
 const EditableAssignee = ({
@@ -17,15 +18,15 @@ const EditableAssignee = ({
 }: EditableAssigneeProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const onUserSelected = (userId: string) => {
-    handleSelect(userId);
+  const onUserSelected = (user: IUserInfo) => {
+    handleSelect(user);
     setIsEditing(false);
   };
 
   return (
     <Content style={{ minHeight: "32px" }}>
       {isEditing ? (
-        <Space direction="vertical" style={{ width: "100%" }}>
+        <Space direction="vertical" style={{ width: "30%" }}>
           <SearchAndSelect
             handleSearch={handleSearch}
             handleSelect={onUserSelected}
@@ -38,8 +39,8 @@ const EditableAssignee = ({
       ) : (
         <Tag
           color="green"
+          className="TagCursor"
           onClick={() => setIsEditing(true)}
-          style={{ cursor: "pointer", padding: "4px 8px" }}
         >
           Assignee: <strong>{assigneeName || "Unassigned"}</strong>
         </Tag>

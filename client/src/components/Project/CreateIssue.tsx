@@ -13,6 +13,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { ICreateIssue } from "../../types/IIssueState";
 import { createIssue } from "../../utils/IssueUtil";
 import { statusOptions, priorityOptions } from "../../ Constants";
+import { getAllMembers } from "../../utils/ProjectUtil";
+import SetAssignee from "./SetAssignee";
 
 type CreateIssueFormFields = {
   title: string;
@@ -51,6 +53,10 @@ const CreateIssue = ({ projectId }: { projectId: string }) => {
     mutate(data);
   };
 
+  const handleSearch = async (query: string) => {
+    return await getAllMembers(projectId, query);
+  };
+
   return (
     <Flex>
       <Button type="primary" onClick={handleOpenModal}>
@@ -61,67 +67,42 @@ const CreateIssue = ({ projectId }: { projectId: string }) => {
         open={isModalOpen}
         onCancel={handleCloseModal}
         footer={null}
+        destroyOnClose // Important: resets SetAssignee state when modal closes
       >
-        <Form
-          form={form}
-          name="create-issue-form"
-          layout="vertical"
-          autoComplete="off"
-          onFinish={onFinish}
-        >
-          <Form.Item<CreateIssueFormFields>
-            label="Title"
-            name="title"
-            rules={[{ required: true, message: "Please enter issue title" }]}
-          >
-            <Input size="large" placeholder="Enter issue title" />
+        <Form form={form} layout="vertical" onFinish={onFinish}>
+          <Form.Item name="title" label="Title" rules={[{ required: true }]}>
+            <Input size="large" />
           </Form.Item>
 
-          <Form.Item<CreateIssueFormFields>
-            label="Description"
+          <Form.Item
             name="description"
-            rules={[
-              { required: true, message: "Please enter issue description" },
-            ]}
+            label="Description"
+            rules={[{ required: true }]}
           >
-            <Input.TextArea
-              size="large"
-              placeholder="Enter issue description"
-              rows={3}
-            />
+            <Input.TextArea size="large" rows={3} />
           </Form.Item>
 
-          <Form.Item<CreateIssueFormFields>
-            label="Status"
-            name="status"
-            rules={[{ required: true, message: "Please select status" }]}
-          >
-            <Select
-              size="large"
-              placeholder="Select issue status"
-              options={statusOptions}
-            />
-          </Form.Item>
+          <Flex gap="small">
+            <Form.Item
+              name="status"
+              label="Status"
+              style={{ flex: 1 }}
+              rules={[{ required: true }]}
+            >
+              <Select size="large" options={statusOptions} />
+            </Form.Item>
+            <Form.Item
+              name="priority"
+              label="Priority"
+              style={{ flex: 1 }}
+              rules={[{ required: true }]}
+            >
+              <Select size="large" options={priorityOptions} />
+            </Form.Item>
+          </Flex>
 
-          <Form.Item<CreateIssueFormFields>
-            label="Priority"
-            name="priority"
-            rules={[{ required: true, message: "Please select priority" }]}
-          >
-            <Select
-              size="large"
-              placeholder="Select issue priority"
-              options={priorityOptions}
-            />
-          </Form.Item>
-
-          <Form.Item<CreateIssueFormFields>
-            label="Assignee ID"
-            name="assigneeId"
-            rules={[{ required: true, message: "Please enter assignee ID" }]}
-          >
-            <Input size="large" placeholder="Enter assignee user ID" />
-          </Form.Item>
+          {/* New Clean Component */}
+          <SetAssignee projectId={projectId} handleSearch={handleSearch} />
 
           <Form.Item>
             <Button

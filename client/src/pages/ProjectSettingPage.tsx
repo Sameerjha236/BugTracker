@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 
 const ProjectSetting = lazy(
-  () => import("../components/Project/ProjectSetting")
+  () => import("../components/Project/ProjectSetting/ProjectSetting"),
 );
 
 const ProjectSettingPage = () => {

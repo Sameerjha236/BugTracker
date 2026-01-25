@@ -2,13 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import { Flex, Input, Spin, Typography, Card } from "antd";
 import { useState } from "react";
 import type { IUserInfo } from "../../../types/IUserState";
+import CardLoader from "../CardLoader";
 
 const { Text } = Typography;
 
 type SearchAndSelectProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   handleSearch: (value: string) => Promise<any>;
-  handleSelect: (value: string) => void;
+  handleSelect: (user: IUserInfo) => void;
   queryKey: string[];
 };
 
@@ -24,8 +25,10 @@ const SearchAndSelect = ({
     queryFn: () => handleSearch(searchValue),
   });
 
+  if (isLoading) return <CardLoader />;
+
   return (
-    <div style={{ position: "relative", width: 250 }}>
+    <div style={{ position: "relative", width: "100%" }}>
       <Input
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
@@ -36,18 +39,7 @@ const SearchAndSelect = ({
 
       {/* Results Dropdown Container */}
       {users.length > 0 && (
-        <Card
-          size="small"
-          style={{
-            position: "absolute",
-            zIndex: 1000,
-            width: "100%",
-            marginTop: 4,
-            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-            maxHeight: 250,
-            overflowY: "auto",
-          }}
-        >
+        <Card size="small" className="ResultDropDownContainer">
           {isLoading ? (
             <Flex justify="center" align="center" style={{ padding: 20 }}>
               <Spin size="small" />
@@ -57,14 +49,7 @@ const SearchAndSelect = ({
               <Flex
                 key={user.userId}
                 vertical
-                onClick={() => handleSelect(user.userId || "")}
-                style={{
-                  cursor: "pointer",
-                  padding: "8px 12px",
-                  borderRadius: 4,
-                  transition: "background 0.2s",
-                }}
-                className="search-item-hover"
+                onClick={() => handleSelect(user)}
                 onMouseEnter={(e) =>
                   (e.currentTarget.style.backgroundColor = "#f5f5f5")
                 }

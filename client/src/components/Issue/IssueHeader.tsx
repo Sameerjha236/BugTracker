@@ -1,4 +1,4 @@
-import { Card, Typography, Space, Flex, Button } from "antd";
+import { Card, Typography, Space, Flex } from "antd";
 import type { IIssue } from "../../types/IIssueState";
 import EditableText from "../Common/EditableField/EditableText";
 import IssueActions from "./IssueActions";
@@ -12,6 +12,7 @@ import {
 import EditableAssignee from "./EditableAssignee";
 import { updateIssue } from "../../utils/IssueUtil";
 import { getAllMembers } from "../../utils/ProjectUtil";
+import type { IUserInfo } from "../../types/IUserState";
 
 type IssueHeaderProps = {
   issue: IIssue;
@@ -34,8 +35,10 @@ const IssueHeader = ({ issue, mutate }: IssueHeaderProps) => {
   const statusColor = statusColors[issue.status];
   const priorityColor = priorityColors[issue.priority];
 
-  const handleSelect = async (query: string) => {
-    updateIssue(issue.issueId, { assigneeId: query });
+  const handleSelect = async (user: IUserInfo) => {
+    const userId = user.userId;
+    if (!userId) return;
+    updateIssue(issue.issueId, { assigneeId: userId });
   };
 
   const handleSearch = async (query: string) => {
@@ -78,15 +81,6 @@ const IssueHeader = ({ issue, mutate }: IssueHeaderProps) => {
           handleSearch={handleSearch}
           handleSelect={handleSelect}
         />
-
-        <Button
-          onClick={() => {
-            console.log(issue);
-            getAllMembers(issue.projectId, "");
-          }}
-        >
-          check
-        </Button>
       </Space>
     </Card>
   );

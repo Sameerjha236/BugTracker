@@ -3,11 +3,12 @@ import { Button, Card, Flex, message, Space, Tooltip, Typography } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { getProjectDetails, updateProject } from "../../utils/ProjectUtil";
-import type { ICreateProject } from "../../types/IProjectState";
-import EditableText from "../Common/EditableField/EditableText";
-import FieldRow from "../Common/FieldRow";
+import type { ICreateProject } from "../../../types/IProjectState";
+import { getProjectDetails, updateProject } from "../../../utils/ProjectUtil";
+import EditableText from "../../Common/EditableField/EditableText";
+import FieldRow from "../../Common/FieldRow";
 import ProjectDeleteModal from "./ProjectDeleteModal";
+import ProjectMemberManager from "./ProjectMemberManager";
 
 const { Title, Text } = Typography;
 
@@ -43,9 +44,14 @@ const ProjectSetting = () => {
   if (!projectDetail) return <div>No project found</div>;
 
   return (
-    <Content style={{ maxWidth: 900 }}>
-      <Space direction="vertical" size="large" style={{ width: "100%" }}>
-        <Flex justify="start" align="center" gap={16}>
+    <Content className="project-setting-container">
+      <Space
+        direction="vertical"
+        size="large"
+        className="project-setting-space"
+      >
+        {/* Header */}
+        <Flex align="center" gap={16} className="project-setting-header">
           <Tooltip title="Back">
             <Button
               type="text"
@@ -53,18 +59,22 @@ const ProjectSetting = () => {
               onClick={() => navigate(-1)}
             />
           </Tooltip>
-          <Title level={2}>Project Settings </Title>
+          <Title level={2} className="project-setting-title">
+            Project Settings
+          </Title>
         </Flex>
 
         {/* Project Details */}
-        <Card title="Project Details">
+        <Card title="Project Details" className="project-setting-card">
           <Space direction="vertical" size="middle" style={{ width: "100%" }}>
             <FieldRow label="Name">
               <EditableText
                 value={projectDetail.name}
-                onSave={(newName) => {
-                  updateMutation.mutate({ updatedFields: { name: newName } });
-                }}
+                onSave={(newName) =>
+                  updateMutation.mutate({
+                    updatedFields: { name: newName },
+                  })
+                }
                 renderView={(value) => (
                   <Title level={3} style={{ margin: 0 }}>
                     {value}
@@ -76,23 +86,32 @@ const ProjectSetting = () => {
             <FieldRow label="Description">
               <EditableText
                 value={projectDetail.description}
-                onSave={(newDescription) => {
+                onSave={(newDescription) =>
                   updateMutation.mutate({
                     updatedFields: { description: newDescription },
-                  });
-                }}
-                renderView={(value) => (
-                  <Text style={{ margin: 0 }}>{value}</Text>
-                )}
+                  })
+                }
+                renderView={(value) => <Text>{value}</Text>}
               />
             </FieldRow>
 
             <FieldRow label="Owner">
-              <Text>{projectDetail.owner.name}</Text>
+              <Text className="project-setting-owner">
+                {projectDetail.owner.name}
+              </Text>
             </FieldRow>
           </Space>
         </Card>
-        <ProjectDeleteModal />
+
+        {/* Members */}
+        <Card title="Members" className="project-setting-card">
+          <ProjectMemberManager projectId={projectId || ""} />
+        </Card>
+
+        {/* Danger Zone */}
+        <div className="project-setting-danger">
+          <ProjectDeleteModal />
+        </div>
       </Space>
     </Content>
   );

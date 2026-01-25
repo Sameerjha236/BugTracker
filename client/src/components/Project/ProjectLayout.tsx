@@ -7,7 +7,7 @@ import CardLoader from "../Common/CardLoader";
 import type { IIssueSummary } from "../../types/IIssueState";
 
 const ProjectHeader = lazy(() => import("./ProjectHeader"));
-const IssueCard = lazy(() => import("./IssueCard"));
+const IssueCard = lazy(() => import("../Issue/IssueCard"));
 
 const ProjectLayout = () => {
   const { id: projectId } = useParams<{ id: string }>();

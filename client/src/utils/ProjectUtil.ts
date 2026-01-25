@@ -14,6 +14,17 @@ export const getProjectsForUser = async (userId: string) => {
   }
 };
 
+export const searchUsersToAdd = async (projectId: string, q: string) => {
+  const path = `${RootProjectPath}${projectId}/search-users?q=${q}`;
+  try {
+    const res = await axios.get(path);
+    return res.data;
+  } catch (error) {
+    console.error("Error fetching project members:", error);
+    throw error;
+  }
+};
+
 export const getAllMembers = async (projectId: string, q: string) => {
   const path = `${RootProjectPath}${projectId}/members?q=${q}`;
   try {
@@ -25,13 +36,27 @@ export const getAllMembers = async (projectId: string, q: string) => {
   }
 };
 
-export const addUserToProject = async (projectId: string, userId: string) => {
+export const addProjectMember = async (projectId: string, userId: string) => {
   const path = `${RootProjectPath}${projectId}/addUser`;
   try {
     const res = await axios.post(path, { user_id: userId, role: "member" });
     return res.data;
   } catch (error) {
     console.error("Error adding user to project:", error);
+    throw error;
+  }
+};
+
+export const removeProjectMember = async (
+  projectId: string,
+  userId: string,
+) => {
+  const path = `${RootProjectPath}${projectId}/removeUser`;
+  try {
+    const res = await axios.delete(path, { data: userId });
+    return res.data;
+  } catch (error) {
+    console.error("Error removing user from project:", error);
     throw error;
   }
 };

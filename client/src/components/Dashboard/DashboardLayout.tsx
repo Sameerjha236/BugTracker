@@ -6,8 +6,8 @@ import { useQuery } from "@tanstack/react-query";
 import { useAppSelector } from "../../hooks/storeHook";
 import type { IProjectState } from "../../types/IProjectState";
 
-const ProjectCard = lazy(() => import("./ProjectCard"));
-const NewProject = lazy(() => import("./NewProject"));
+const ProjectCard = lazy(() => import("../Project/ProjectCard"));
+const NewProject = lazy(() => import("../Project/NewProject"));
 
 const DashboardLayout = () => {
   const {

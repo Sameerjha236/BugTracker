@@ -1,10 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card, Button, Modal, message, Typography } from "antd";
 import { useState } from "react";
-import { deleteProject, getProjectRole } from "../../utils/ProjectUtil";
 import { useParams, useNavigate } from "react-router-dom";
-import { useAppSelector } from "../../hooks/storeHook";
-import CardLoader from "../Common/CardLoader";
+import { useAppSelector } from "../../../hooks/storeHook";
+import { getProjectRole, deleteProject } from "../../../utils/ProjectUtil";
+import CardLoader from "../../Common/CardLoader";
 
 const ProjectDeleteModal = () => {
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
