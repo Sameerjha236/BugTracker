@@ -5,6 +5,7 @@ import type {
   IUserRegisterCredentials,
   IUserState,
 } from "../types/IUserState";
+import { API_BASE_URL } from "../ Constants";
 
 const initialState: IUserState = {
   userInfo: {
@@ -16,36 +17,32 @@ const initialState: IUserState = {
   loading: false,
 };
 
+const RootPath = `${API_BASE_URL}/user/`;
+
 export const loginUserThunk = createAsyncThunk(
   "user/login",
   async (credentials: IUserCredentials, thunkApi) => {
     try {
-      const res = await axios.post(
-        "http://localhost:8080/api/user/login",
-        credentials
-      );
+      const res = await axios.post(`${RootPath}login`, credentials);
       return res.data;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       return thunkApi.rejectWithValue(err.response?.data?.message);
     }
-  }
+  },
 );
 
 export const registerUserThunk = createAsyncThunk(
   "user/register",
   async (credentials: IUserRegisterCredentials, thunkApi) => {
     try {
-      const res = await axios.post(
-        "http://localhost:8080/api/user/register",
-        credentials
-      );
+      const res = await axios.post(`${RootPath}register`, credentials);
       return res.data;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       return thunkApi.rejectWithValue(err.response?.data?.message);
     }
-  }
+  },
 );
 
 const userSlice = createSlice({

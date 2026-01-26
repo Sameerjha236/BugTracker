@@ -1,5 +1,9 @@
 import type { IIssueSummary } from "./types/IIssueState";
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL as string;
+
+export const API_BASE_URL = `${backendUrl}/api`;
+
 export const statusOptions = [
   { label: "Open", value: "open" },
   { label: "In Progress", value: "in progress" },

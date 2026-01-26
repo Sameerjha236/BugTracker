@@ -1,11 +1,12 @@
 import axios from "axios";
+import { API_BASE_URL } from "../ Constants";
 
-const RootIssuePath = "http://localhost:8080/api/comment/";
+const RootIssuePath = `${API_BASE_URL}/comment/`;
 
 export const postCommentToIssue = async (
   issueId: string,
   commentText: string,
-  userId: string
+  userId: string,
 ) => {
   const path = RootIssuePath + "create";
   try {

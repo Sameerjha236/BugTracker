@@ -1,7 +1,8 @@
 import axios from "axios";
 import type { ICreateProject } from "../types/IProjectState";
+import { API_BASE_URL } from "../ Constants";
 
-const RootProjectPath = "http://localhost:8080/api/project/";
+const RootProjectPath = `${API_BASE_URL}/project/`;
 
 export const getProjectsForUser = async (userId: string) => {
   const path = RootProjectPath + "user/" + userId;

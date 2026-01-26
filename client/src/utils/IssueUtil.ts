@@ -1,7 +1,8 @@
 import axios from "axios";
 import type { ICreateIssue } from "../types/IIssueState";
+import { API_BASE_URL } from "../ Constants";
 
-const RootIssuePath = "http://localhost:8080/api/issue/";
+const RootIssuePath = `${API_BASE_URL}/issue/`;
 
 export const getIssueForProject = async (projectId: string) => {
   const path = RootIssuePath + "project/" + projectId;

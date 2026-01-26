@@ -11,7 +11,6 @@ import type { ICreateIssue } from "../../types/IIssueState";
 const IssueHeader = lazy(() => import("./IssueHeader"));
 const IssueDescription = lazy(() => import("./IssueDescription"));
 const IssueComments = lazy(() => import("./Comment/IssueComments"));
-// const IssueSidebar = lazy(() => import("./IssueSidebar"));
 
 const { Content } = Layout;
 
@@ -26,16 +25,17 @@ const IssueLayout = () => {
     isError,
   } = useQuery({
     queryKey: ["issue", issueId],
-    queryFn: () => getIssueDetail(issueId || ""),
+    queryFn: () => getIssueDetail(issueId!),
     enabled: !!issueId,
   });
 
   const { mutate } = useMutation({
     mutationFn: ({ updatedFields }: { updatedFields: Partial<ICreateIssue> }) =>
-      updateIssue(issueId || "", updatedFields),
+      updateIssue(issueId!, updatedFields),
+
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["issue", issueId] });
-      message.success("Issue updated successfully");
+      message.success("Issue updated");
     },
   });
 
@@ -45,26 +45,23 @@ const IssueLayout = () => {
 
   return (
     <Suspense fallback={<CardLoader />}>
-      <Layout style={{ padding: 24, gap: 24 }}>
+      <Layout style={{ padding: "1.5em", gap: "1.5em" }}>
         <Content>
           <Space direction="vertical" size="large" style={{ width: "100%" }}>
             <Button
               type="link"
               icon={<ArrowLeftOutlined />}
               onClick={() => navigate(-1)}
-              style={{ padding: 0, fontSize: 14 }}
+              style={{ padding: 0 }}
             >
               Back to Issues
             </Button>
+
             <IssueHeader issue={issueDetail} mutate={mutate} />
             <IssueDescription issue={issueDetail} mutate={mutate} />
             <IssueComments issueId={issueId!} />
           </Space>
         </Content>
-
-        {/* <Sider width={320} theme="light">
-          <IssueSidebar issue={issueDetail} />
-        </Sider> */}
       </Layout>
     </Suspense>
   );
