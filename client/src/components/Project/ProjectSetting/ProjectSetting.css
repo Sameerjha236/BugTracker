@@ -4,6 +4,7 @@
   margin: 0 auto;
   padding: 2rem 1.5rem;
   color: var(--color-foreground);
+  background-color: var(--color-background);
 }
 
 /* ===== Space wrapper ===== */
@@ -57,14 +58,15 @@
   margin-bottom: 0.5rem;
   border: 1px solid var(--color-primary-light);
   padding: 0.5rem 1rem;
+  color: var(--color-secondary) !important;
 }
 
 .project-members-list .ant-list-item-meta-title {
-  color: var(--color-foreground);
+  color: var(--color-secondary) !important;
 }
 
 .project-members-list .ant-list-item-meta-description {
-  color: var(--color-primary-light);
+  color: var(--color-secondary) !important;
 }
 
 /* ===== Buttons ===== */
@@ -95,9 +97,9 @@
 
 /* ===== Delete / Danger Zone ===== */
 .project-setting-danger .ant-card {
-  background-color: #2a0d0d;
+  background-color: #3a1a1a;
   border: 1px solid #ff4d4f;
-  color: var(--color-surface);
+  color: var(--color-foreground);
 }
 
 .project-setting-danger .ant-btn-danger {

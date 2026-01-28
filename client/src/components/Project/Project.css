@@ -32,7 +32,7 @@
   margin: 0;
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--color-background) !important;
+  color: var(--color-secondary) !important;
   transition: color 0.2s ease;
 }
 

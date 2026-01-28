@@ -26,7 +26,7 @@
 .dashboard-subtitle {
   margin: 0.4rem 0 0;
   font-size: 0.95rem;
-  color: var(--color-primary-light);
+  color: var(--color-secondary);
 }
 
 /* Grid */
