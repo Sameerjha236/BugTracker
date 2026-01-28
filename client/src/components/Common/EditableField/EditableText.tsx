@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Input, Typography } from "antd";
+import "./Edit.css";
 
 type EditableTextProps = {
   value: string;
@@ -17,40 +18,31 @@ const EditableText = ({ value, onSave, renderView }: EditableTextProps) => {
 
   const handleKeyDown = (e: { key: string }) => {
     if (e.key === "Enter") {
-      if (temp !== value) {
-        onSave(temp);
-      }
+      if (temp !== value) onSave(temp);
       setIsEditing(false);
     }
-
     if (e.key === "Escape") {
       setTemp(value);
       setIsEditing(false);
     }
   };
 
-  if (isEditing) {
-    return (
-      <Input
-        autoFocus
-        value={temp}
-        onChange={(e) => setTemp(e.target.value)}
-        onKeyDown={handleKeyDown}
-        onBlur={() => {
-          setTemp(value);
-          setIsEditing(false);
-        }}
-      />
-    );
-  }
-
   return (
-    <Typography.Text
-      onClick={() => setIsEditing(true)}
-      style={{ cursor: "pointer" }}
-    >
-      {renderView(value)}
-    </Typography.Text>
+    <div className="EditableTextContainer">
+      {isEditing ? (
+        <Input
+          autoFocus
+          value={temp}
+          onChange={(e) => setTemp(e.target.value)}
+          onKeyDown={handleKeyDown}
+          onBlur={() => setIsEditing(false)}
+        />
+      ) : (
+        <Typography.Text onClick={() => setIsEditing(true)}>
+          {renderView(value)}
+        </Typography.Text>
+      )}
+    </div>
   );
 };
 

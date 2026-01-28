@@ -5,9 +5,10 @@ import CardLoader from "../Common/CardLoader";
 import { useQuery } from "@tanstack/react-query";
 import { useAppSelector } from "../../hooks/storeHook";
 import type { IProjectState } from "../../types/IProjectState";
+import "./Dashboard.css";
 
 const ProjectCard = lazy(() => import("../Project/ProjectCard"));
-const NewProject = lazy(() => import("../Project/NewProject"));
+const NewProject = lazy(() => import("../Project/NewProject/NewProject"));
 
 const DashboardLayout = () => {
   const {
@@ -39,13 +40,20 @@ const DashboardLayout = () => {
   if (isError) return <Flex>Something went wrong</Flex>;
 
   return (
-    <Flex vertical gap={10}>
-      <Flex justify="flex-end">
-        <Suspense fallback={<div>Loading...</div>}>
+    <section className="dashboard">
+      <Flex justify="space-between" align="center" className="dashboard-header">
+        <div>
+          <h1 className="dashboard-title">Your Projects</h1>
+          <p className="dashboard-subtitle">
+            Track progress, bugs, and team activity
+          </p>
+        </div>
+        <Suspense fallback={null}>
           <NewProject />
         </Suspense>
       </Flex>
-      <Row gutter={[16, 16]}>
+
+      <Row gutter={[16, 16]} className="dashboard-grid">
         {projects?.map((project: IProjectState) => (
           <Col xs={24} sm={12} md={8} lg={6} key={project.projectId}>
             <Suspense fallback={<CardLoader />}>
@@ -54,7 +62,7 @@ const DashboardLayout = () => {
           </Col>
         ))}
       </Row>
-    </Flex>
+    </section>
   );
 };
 

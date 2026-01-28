@@ -20,12 +20,15 @@ const AddMemberInline = ({
 }: AddMemberInlineProps) => {
   const [isAdding, setIsAdding] = useState(false);
 
-  if (isLoading) {
-    return <CardLoader />;
-  }
+  if (isLoading) return <CardLoader />;
+
   if (!isAdding) {
     return (
-      <Button type="dashed" onClick={() => setIsAdding(true)}>
+      <Button
+        type="dashed"
+        className="project-add-member-btn"
+        onClick={() => setIsAdding(true)}
+      >
         + Add member
       </Button>
     );
@@ -47,8 +50,8 @@ const AddMemberInline = ({
       <Button
         type="link"
         danger
+        className="project-add-cancel-btn"
         onClick={() => setIsAdding(false)}
-        style={{ padding: 0 }}
       >
         Cancel
       </Button>

@@ -13,12 +13,12 @@ const IssueDescription = ({ issue, mutate }: IssueDescriptionProps) => {
   };
 
   return (
-    <Card title="Description">
+    <Card className="IssueDescriptionCard" title="Description">
       <EditableTextWithButton
         value={issue.description || ""}
         onSave={handleSaveDescription}
         renderView={(value) => (
-          <Typography.Paragraph>
+          <Typography.Paragraph className="IssueDescriptionText">
             {value || "No description provided."}
           </Typography.Paragraph>
         )}

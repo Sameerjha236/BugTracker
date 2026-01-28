@@ -1,0 +1,174 @@
+/* ===== Container ===== */
+.project-setting-container {
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  color: var(--color-foreground);
+}
+
+/* ===== Space wrapper ===== */
+.project-setting-space {
+  width: 100%;
+}
+
+/* ===== Header ===== */
+.project-setting-header {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--color-primary-light);
+  margin-bottom: 1.5rem;
+}
+
+.project-setting-header .ant-btn-text {
+  color: var(--color-foreground);
+}
+
+.project-setting-title {
+  margin: 0;
+  color: var(--color-foreground);
+}
+
+/* ===== Cards ===== */
+.project-setting-card {
+  border-radius: 1rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-primary-light);
+  color: var(--color-foreground);
+}
+
+.project-setting-card .ant-card-head {
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+/* ===== EditableText / Fields ===== */
+.project-setting-card .ant-typography {
+  color: var(--color-foreground);
+}
+
+.project-setting-owner {
+  font-weight: 500;
+  color: var(--color-primary-light);
+}
+
+/* ===== Members list ===== */
+.project-members-list .ant-list-item {
+  background-color: var(--color-surface);
+  border-radius: 0.6rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--color-primary-light);
+  padding: 0.5rem 1rem;
+}
+
+.project-members-list .ant-list-item-meta-title {
+  color: var(--color-foreground);
+}
+
+.project-members-list .ant-list-item-meta-description {
+  color: var(--color-primary-light);
+}
+
+/* ===== Buttons ===== */
+.project-setting-card .ant-btn-primary,
+.project-setting-container .ant-btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary),
+    var(--color-accent)
+  );
+  border: none;
+  color: var(--color-background);
+  font-weight: 600;
+  border-radius: 0.6rem;
+  height: 2.5rem;
+  transition: all 0.2s ease;
+}
+
+.project-setting-card .ant-btn-primary:hover,
+.project-setting-container .ant-btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+.project-setting-card .ant-btn-text,
+.project-setting-container .ant-btn-text {
+  color: var(--color-foreground);
+}
+
+/* ===== Delete / Danger Zone ===== */
+.project-setting-danger .ant-card {
+  background-color: #2a0d0d;
+  border: 1px solid #ff4d4f;
+  color: var(--color-surface);
+}
+
+.project-setting-danger .ant-btn-danger {
+  background-color: #ff4d4f;
+  color: #fff;
+  border-radius: 0.6rem;
+  border: none;
+  font-weight: 600;
+}
+
+.project-setting-danger .ant-btn-danger:hover {
+  filter: brightness(1.1);
+}
+
+/* ===== AddMemberInline ===== */
+.project-setting-space .ant-btn-dashed {
+  border-radius: 0.6rem;
+  color: var(--color-foreground);
+  border: 1px dashed var(--color-primary-light);
+  background-color: var(--color-surface);
+  font-weight: 500;
+}
+
+.project-setting-space .ant-btn-dashed:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-background);
+}
+
+/* ===== SearchAndSelect inside AddMemberInline ===== */
+.project-setting-space .ant-select-selector {
+  border-radius: 0.6rem;
+  border: 1px solid var(--color-primary-light);
+  background-color: var(--color-surface);
+  color: var(--color-foreground);
+}
+
+.project-setting-space .ant-select-selection-placeholder {
+  color: var(--color-primary-light);
+}
+
+.project-setting-space .ant-select-selection-item {
+  color: var(--color-foreground);
+}
+
+.project-setting-space .ant-select-item-option-active {
+  background-color: var(--color-accent);
+  color: var(--color-background);
+}
+
+/* ===== Popconfirm remove button ===== */
+.project-members-list .ant-btn-text.ant-btn-danger {
+  color: #ff4d4f;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .project-setting-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .project-setting-title {
+    font-size: 1.5rem;
+  }
+
+  .project-setting-card {
+    padding: 1rem;
+  }
+
+  .project-members-list .ant-list-item {
+    padding: 0.5rem;
+  }
+}

@@ -10,11 +10,12 @@ import {
 } from "antd";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { ICreateIssue } from "../../types/IIssueState";
-import { createIssue } from "../../utils/IssueUtil";
-import { statusOptions, priorityOptions } from "../../ Constants";
-import { getAllMembers } from "../../utils/ProjectUtil";
-import SetAssignee from "./SetAssignee";
+import "./CreateIssue.css";
+import { statusOptions, priorityOptions } from "../../../ Constants";
+import type { ICreateIssue } from "../../../types/IIssueState";
+import { createIssue } from "../../../utils/IssueUtil";
+import { getAllMembers } from "../../../utils/ProjectUtil";
+import SetAssignee from "../SetAssignee";
 
 type CreateIssueFormFields = {
   title: string;
@@ -23,8 +24,6 @@ type CreateIssueFormFields = {
   priority: string;
   assigneeId: string;
 };
-
-//   "assigneeId": "dc253b49-c465-48a2-9234-1fe318d2bdc9",
 
 const CreateIssue = ({ projectId }: { projectId: string }) => {
   const queryClient = useQueryClient();
@@ -53,9 +52,7 @@ const CreateIssue = ({ projectId }: { projectId: string }) => {
     mutate(data);
   };
 
-  const handleSearch = async (query: string) => {
-    return await getAllMembers(projectId, query);
-  };
+  const handleSearch = async (query: string) => getAllMembers(projectId, query);
 
   return (
     <Flex>
@@ -67,7 +64,7 @@ const CreateIssue = ({ projectId }: { projectId: string }) => {
         open={isModalOpen}
         onCancel={handleCloseModal}
         footer={null}
-        destroyOnClose // Important: resets SetAssignee state when modal closes
+        className="createIssueModal"
       >
         <Form form={form} layout="vertical" onFinish={onFinish}>
           <Form.Item name="title" label="Title" rules={[{ required: true }]}>
@@ -101,7 +98,6 @@ const CreateIssue = ({ projectId }: { projectId: string }) => {
             </Form.Item>
           </Flex>
 
-          {/* New Clean Component */}
           <SetAssignee projectId={projectId} handleSearch={handleSearch} />
 
           <Form.Item>

@@ -1,38 +1,158 @@
-/* Page layout */
-
-.authCard {
-  width: 35%;
-  padding: 32px 24px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
-  transition: all 0.3s ease;
+/* ===== Page wrapper ===== */
+.authLayout {
+  padding: 2rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(
+      circle at top,
+      color-mix(in srgb, var(--color-accent) 12%, transparent),
+      transparent 60%
+    ),
+    var(--color-background);
 }
 
+/* ===== Card ===== */
+.authCard {
+  width: 100%;
+  max-width: 26rem;
+  padding: 2rem 1.8rem 2.4rem;
+  border-radius: 1.2rem;
+  background: var(--color-surface);
+  border: 0.0625rem solid var(--color-primary-light);
+  box-shadow: 0 1.2rem 3rem rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(0.6rem);
+  color: var(--color-foreground);
+}
+
+/* ===== Tabs ===== */
 .authTabs {
-  margin-bottom: 24px;
-  border-bottom: 1px solid #eee;
+  margin-bottom: 1.6rem;
+  position: relative;
 }
 
 .authTab {
   cursor: pointer;
-  color: #888;
-  transition: color 0.3s ease, border-bottom 0.3s ease;
-  padding-bottom: 0.5em;
+  margin: 0 !important;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-foreground-muted);
+  transition:
+    color 0.25s ease,
+    transform 0.2s ease;
+}
+
+.authTab:hover {
+  color: var(--color-accent);
 }
 
 .authTab.active {
-  color: #1677ff;
-  border-bottom: 2px solid #1677ff;
+  color: var(--color-foreground);
+}
+
+.authTab.active::after {
+  content: "";
+  display: block;
+  margin: 0.35rem auto 0;
+  width: 1.6rem;
+  height: 0.18rem;
+  border-radius: 1rem;
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary),
+    var(--color-accent)
+  );
+}
+
+/* ===== Form ===== */
+.authFormWrapper {
+  width: 100%;
 }
 
 .authForm {
   width: 100%;
+  padding-top: 0.4rem;
 }
 
-.authFormField {
+.authForm .ant-form {
   width: 100%;
 }
 
-.authFormField input {
-  border-radius: 8px;
+/* ===== Inputs ===== */
+.authForm .ant-input,
+.authForm .ant-input-password {
+  border-radius: 0.6rem;
+  padding: 0.6rem 0.75rem;
+  color: var(--color-foreground);
+  background-color: var(--color-background);
+}
+
+.authForm .ant-input::placeholder,
+.authForm .ant-input-password input::placeholder {
+  color: var(--color-foreground-muted);
+}
+
+/* ===== Primary button ===== */
+.authForm .ant-btn-primary {
+  height: 2.6rem;
+  border-radius: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary),
+    var(--color-accent)
+  );
+  border: none;
+}
+
+.authForm .ant-btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+/* ===== Skeleton / Form field ===== */
+.authFormField {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.authForm .ant-skeleton-input {
+  border-radius: 0.6rem;
+}
+
+/* ===== Dark mode fixes ===== */
+.authCard .ant-typography,
+.authCard .ant-form-item-label > label,
+.authCard .ant-form-item-required,
+.authCard .ant-btn,
+.authCard .ant-btn span {
+  color: var(--color-foreground);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 30rem) {
+  .authCard {
+    padding: 1.6rem 1.3rem 2rem;
+  }
+}
+
+/* ===== Input overrides ===== */
+.authForm .ant-input,
+.authForm .ant-input-password,
+.authForm .ant-input-password input {
+  color: var(--color-foreground) !important;
+  background-color: var(--color-background) !important;
+}
+
+.authForm .ant-input::placeholder,
+.authForm .ant-input-password input::placeholder {
+  color: var(--color-foreground) !important;
+}
+
+/* ===== Password eye button ===== */
+.authForm .ant-input-password .ant-input-suffix {
+  background-color: var(--color-background) !important;
+  color: var(--color-foreground) !important;
 }

@@ -1,0 +1,268 @@
+/* ===== ProjectCard.css ===== */
+
+/* Link wrapper */
+.project-card-link {
+  text-decoration: none; /* Remove default link styles */
+}
+
+/* Card hover & shape */
+.project-card {
+  border-radius: 1rem; /* Rounded corners */
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+/* Hover effect */
+.project-card:hover {
+  transform: translateY(-0.25rem);
+  box-shadow: 0 0.75rem 2rem rgba(0, 0, 0, 0.15);
+}
+
+/* Card body layout */
+.project-card .ant-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Project title */
+.project-card .ant-typography {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-background) !important;
+  transition: color 0.2s ease;
+}
+
+/* Title hover color change */
+.project-card:hover .ant-typography {
+  color: var(--color-accent);
+}
+
+/* Responsive tweaks */
+@media (max-width: 48rem) {
+  .project-card .ant-typography {
+    font-size: 1rem;
+  }
+}
+
+/* ===== ProjectLayout.css ===== */
+
+/* Container for the project page */
+.project-layout {
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  color: var(--color-foreground);
+}
+
+/* Header section with project title and actions */
+.project-header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1.2rem;
+  border-bottom: 0.0625rem solid var(--color-primary-light);
+  gap: 1rem;
+}
+
+/* Project title inside header */
+.project-header-wrapper .ant-typography {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-foreground);
+}
+
+/* Issues grid spacing */
+.project-issues-grid {
+  margin-top: 1rem;
+}
+
+/* Empty state */
+.project-empty-state {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--color-primary-light);
+}
+
+/* Loading fallback styling */
+.project-loading {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+/* Responsive tweaks */
+@media (max-width: 48rem) {
+  .project-header-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+}
+
+/* ===== ProjectHeader.css ===== */
+
+/* Container for the header */
+.project-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: var(
+    --color-foreground
+  ); /* white in light mode, black in dark mode */
+  color: var(
+    --color-background
+  ); /* text color: black on white, white on black */
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  gap: 1rem;
+}
+
+/* Back button */
+.back-button {
+  color: var(--color-accent) !important; /* visible and themed */
+  font-weight: 600;
+}
+
+/* Project title */
+.project-header .project-title {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--color-background);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Right-side actions */
+.project-header .header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Buttons in header actions */
+.project-header .header-actions .ant-btn {
+  color: var(--color-background);
+  font-weight: 600;
+}
+
+/* Responsive tweaks */
+@media (max-width: 48rem) {
+  .project-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .project-header .project-title {
+    text-align: left;
+  }
+}
+
+/* Outer clickable box */
+.setAssigneeBox {
+  width: 100%;
+  min-height: 2.4rem;
+  border: 1px solid var(--color-primary-light);
+  border-radius: 0.6rem;
+  padding: 0.45rem 0.75rem;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.setAssigneeBox:hover {
+  border-color: var(--color-secondary);
+  background-color: var(--color-background);
+}
+
+/* Placeholder text color when no value selected */
+.setAssigneeBox .ant-typography {
+  color: var(--color-primary-light);
+}
+
+/* When a value is selected, override placeholder style */
+.setAssigneeBox .ant-typography[data-selected="true"] {
+  color: var(--color-foreground);
+  font-weight: 500;
+}
+
+/* SearchAndSelect inside SetAssignee */
+.setAssigneeBox + .SearchAndSelectContainer,
+.SetAssigneeContainer .SearchAndSelectContainer {
+  width: 100%;
+}
+
+/* Button link inside editing mode */
+.setAssigneeBox + .ant-space .ant-btn-link {
+  color: var(--color-secondary) !important;
+  font-size: 0.85rem;
+  padding: 0;
+}
+
+/* Ensure input inside SearchAndSelect keeps theme */
+.setAssigneeBox + .SearchAndSelectContainer .ant-input {
+  color: var(--color-foreground) !important;
+  background-color: var(--color-background) !important;
+  border: 1px solid var(--color-primary-light) !important;
+}
+
+.setAssigneeBox + .SearchAndSelectContainer .ant-input::placeholder {
+  color: var(--color-primary-light) !important;
+}
+
+/* Card dropdown inside SearchAndSelect */
+.setAssigneeBox + .SearchAndSelectContainer .ResultDropDownContainer {
+  background-color: var(--color-background) !important;
+  border: 1px solid var(--color-primary-light) !important;
+}
+
+/* Each user item in dropdown */
+.setAssigneeBox
+  + .SearchAndSelectContainer
+  .ResultDropDownContainer
+  .ant-card-body
+  > div {
+  background-color: var(--color-background) !important;
+}
+
+.setAssigneeBox
+  + .SearchAndSelectContainer
+  .ResultDropDownContainer
+  .ant-card-body
+  > div:hover {
+  background-color: var(--color-primary-light) !important;
+}
+
+/* Text inside dropdown */
+.setAssigneeBox
+  + .SearchAndSelectContainer
+  .ResultDropDownContainer
+  .ant-typography[strong] {
+  color: var(--color-foreground) !important;
+}
+
+.setAssigneeBox
+  + .SearchAndSelectContainer
+  .ResultDropDownContainer
+  .ant-typography[type="secondary"] {
+  color: var(--color-primary-light) !important;
+}

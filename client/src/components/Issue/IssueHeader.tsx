@@ -46,9 +46,10 @@ const IssueHeader = ({ issue, mutate }: IssueHeaderProps) => {
   };
 
   return (
-    <Card>
-      <Space direction="vertical" style={{ width: "100%" }}>
-        <Flex justify="space-between">
+    <Card className="IssueHeaderCard">
+      <Space direction="vertical" className="IssueHeaderSpace">
+        {/* Status / Priority / Actions Row */}
+        <Flex justify="space-between" className="IssueHeaderRow">
           <Space>
             <EditableOptions
               value={issue.status}
@@ -66,16 +67,18 @@ const IssueHeader = ({ issue, mutate }: IssueHeaderProps) => {
           <IssueActions />
         </Flex>
 
+        {/* Editable Title */}
         <EditableText
           value={issue.title}
           onSave={handleTitleSave}
           renderView={(value) => (
-            <Typography.Title level={3} style={{ margin: 0 }}>
+            <Typography.Title level={3} className="IssueHeaderTitle">
               {value}
             </Typography.Title>
           )}
         />
 
+        {/* Assignee */}
         <EditableAssignee
           assigneeName={issue.assignee?.name || null}
           handleSearch={handleSearch}

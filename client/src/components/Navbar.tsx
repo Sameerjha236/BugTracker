@@ -1,8 +1,9 @@
-import { Button, Flex } from "antd";
-import { Typography } from "antd";
+import { Button, Flex, Typography } from "antd";
 import { useAppDispatch, useAppSelector } from "../hooks/storeHook";
 import { userActions } from "../store/userSlice";
 import { Link } from "react-router-dom";
+import ThemeToggle from "./ThemeToggle";
+import "./Navbar.css";
 
 const { Title } = Typography;
 
@@ -11,21 +12,36 @@ const Navbar = () => {
   const { loggedIn } = useAppSelector((state) => state.user);
 
   return (
-    <Flex justify="space-between" align="center">
-      <Title level={3}>
-        <Link to="/">BugTracker</Link>
-      </Title>
+    <header className="navbar">
+      <div className="navbar-glow" />
 
-      {loggedIn ? (
-        <Button danger onClick={() => dispatch(userActions.logout())}>
-          Logout
-        </Button>
-      ) : (
-        <Button type="primary">
-          <Link to="/auth">Login</Link>
-        </Button>
-      )}
-    </Flex>
+      <div className="navbar-inner">
+        <Title level={3} className="navbar-logo">
+          <Link to="/">
+            <span className="logo-pulse" />
+            BugTracker
+          </Link>
+        </Title>
+
+        <Flex align="center" className="navbar-actions">
+          <ThemeToggle />
+
+          {loggedIn ? (
+            <Button
+              danger
+              size="middle"
+              onClick={() => dispatch(userActions.logout())}
+            >
+              Logout
+            </Button>
+          ) : (
+            <Button type="primary" size="middle">
+              <Link to="/auth">Login</Link>
+            </Button>
+          )}
+        </Flex>
+      </div>
+    </header>
   );
 };
 

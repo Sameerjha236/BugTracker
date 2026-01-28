@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { Flex, Input, Spin, Typography, Card } from "antd";
+import { Flex, Input, Typography, Card } from "antd";
 import { useState } from "react";
 import type { IUserInfo } from "../../../types/IUserState";
 import CardLoader from "../CardLoader";
+import "./SearchAndSelect.css";
 
 const { Text } = Typography;
 
@@ -20,56 +21,44 @@ const SearchAndSelect = ({
 }: SearchAndSelectProps) => {
   const [searchValue, setSearchValue] = useState("");
 
-  const { data: users, isLoading } = useQuery({
+  const { data: users = [], isLoading } = useQuery({
     queryKey: [...queryKey, searchValue],
     queryFn: () => handleSearch(searchValue),
   });
 
-  if (isLoading) return <CardLoader />;
-
   return (
-    <div style={{ position: "relative", width: "100%" }}>
+    <div className="SearchAndSelectContainer">
+      {isLoading && <CardLoader />}
       <Input
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
         placeholder="Search users..."
         allowClear
         autoFocus
+        style={{ width: "100%" }}
       />
 
-      {/* Results Dropdown Container */}
+      {/* Results Dropdown */}
       {users.length > 0 && (
         <Card size="small" className="ResultDropDownContainer">
-          {isLoading ? (
-            <Flex justify="center" align="center" style={{ padding: 20 }}>
-              <Spin size="small" />
+          {users.map((user: IUserInfo) => (
+            <Flex
+              key={user.userId}
+              vertical
+              className="user-item"
+              onClick={() => handleSelect(user)}
+            >
+              <Text className="user-name">{user.name}</Text>
+              <Text className="user-email">{user.email}</Text>
             </Flex>
-          ) : users && users.length > 0 ? (
-            users.map((user: IUserInfo) => (
-              <Flex
-                key={user.userId}
-                vertical
-                onClick={() => handleSelect(user)}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.backgroundColor = "#f5f5f5")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.backgroundColor = "transparent")
-                }
-              >
-                <Text strong style={{ fontSize: 13 }}>
-                  {user.name}
-                </Text>
-                <Text type="secondary" style={{ fontSize: 11 }}>
-                  {user.email}
-                </Text>
-              </Flex>
-            ))
-          ) : (
-            <div style={{ padding: "12px", textAlign: "center" }}>
-              <Text type="secondary">No users found</Text>
-            </div>
-          )}
+          ))}
+        </Card>
+      )}
+
+      {/* No users found */}
+      {!isLoading && users.length === 0 && searchValue && (
+        <Card size="small" className="ResultDropDownContainer no-users">
+          <Text type="secondary">No users found</Text>
         </Card>
       )}
     </div>

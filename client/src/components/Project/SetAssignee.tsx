@@ -24,14 +24,17 @@ const SetAssignee = ({ projectId, handleSearch }: SetAssigneeProps) => {
 
   return (
     <Form.Item label="Assignee" required>
-      <Flex vertical gap={4}>
+      <Flex vertical gap={4} className="SetAssigneeContainer">
         {isEditing ? (
           <Space direction="vertical" style={{ width: "100%" }}>
+            {/* Search input for selecting user */}
             <SearchAndSelect
               handleSearch={handleSearch}
               handleSelect={onUserSelected}
               queryKey={["project-user-search", projectId]}
             />
+
+            {/* Cancel button */}
             <Button
               type="link"
               danger
@@ -47,21 +50,23 @@ const SetAssignee = ({ projectId, handleSearch }: SetAssigneeProps) => {
             align="center"
             onClick={() => setIsEditing(true)}
             className="setAssigneeBox"
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.borderColor = "#4096ff")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.borderColor = "#d9d9d9")
-            }
           >
-            <Text style={{ color: displayName ? "inherit" : "#bfbfbf" }}>
+            {/* Placeholder if no user selected */}
+            <Text
+              data-selected={displayName ? "true" : "false"}
+              style={{
+                width: "100%",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
               {displayName || "Select a user..."}
             </Text>
           </Flex>
         )}
       </Flex>
 
-      {/* Hidden field for form validation */}
+      {/* Hidden input for form validation */}
       <Form.Item
         name="assigneeId"
         noStyle

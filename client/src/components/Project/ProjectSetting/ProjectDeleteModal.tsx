@@ -31,15 +31,17 @@ const ProjectDeleteModal = () => {
   });
 
   if (roleLoading) return <CardLoader />;
+
   const isDisabled = role !== "admin";
 
   return (
     <>
-      <Card title="Danger Zone" styles={{ header: { color: "#ff4d4f" } }}>
+      <Card title="Danger Zone" className="project-setting-danger-card">
         <Button
           danger
           disabled={isDisabled}
           onClick={() => setOpenDeleteModal(true)}
+          className="project-delete-btn"
         >
           Delete Project
         </Button>
@@ -50,9 +52,7 @@ const ProjectDeleteModal = () => {
         onOk={() => deleteMutation.mutate()}
         onCancel={() => setOpenDeleteModal(false)}
         okText="Delete"
-        okButtonProps={{
-          danger: true,
-        }}
+        okButtonProps={{ danger: true }}
       >
         <Typography.Text>
           Are you sure you want to delete this project?

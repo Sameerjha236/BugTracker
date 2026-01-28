@@ -1,0 +1,85 @@
+.theme-toggle {
+  width: 2.6rem;
+  height: 2.6rem;
+  border-radius: 0.9rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    135deg,
+    var(--color-primary-light),
+    var(--color-primary)
+  );
+
+  border: 0.0625rem solid var(--color-primary-light);
+  cursor: pointer;
+  position: relative;
+
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Floating aura */
+.theme-toggle::before {
+  content: "";
+  position: absolute;
+  inset: -0.3rem;
+  border-radius: inherit;
+
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent) 40%, transparent),
+    transparent 70%
+  );
+
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+/* Inner orb */
+.theme-orb {
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 0.6rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.4s ease;
+}
+
+.theme-toggle.light .theme-orb {
+  color: var(--color-accent);
+}
+
+.theme-toggle.dark .theme-orb {
+  color: var(--color-secondary);
+}
+
+.theme-toggle:hover {
+  transform: translateY(-0.08rem);
+  box-shadow: 0 0.6rem 1.4rem rgba(0, 0, 0, 0.25);
+}
+
+.theme-toggle:hover::before {
+  opacity: 1;
+}
+
+.theme-toggle:active {
+  transform: scale(0.94);
+}
+
+.theme-toggle:active .theme-orb {
+  transform: rotate(25deg) scale(0.9);
+}

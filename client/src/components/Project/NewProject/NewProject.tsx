@@ -1,11 +1,11 @@
 import { App, Button, Flex, Form, Input, Modal, type FormProps } from "antd";
-
 import { useState } from "react";
-import type { CreateProjectFormFields } from "../../types/FormFields";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { handleCreateProject } from "../../utils/ProjectUtil";
-import type { ICreateProject } from "../../types/IProjectState";
-import { useAppSelector } from "../../hooks/storeHook";
+import "./NewProject.css";
+import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { useAppSelector } from "../../../hooks/storeHook";
+import type { CreateProjectFormFields } from "../../../types/FormFields";
+import type { ICreateProject } from "../../../types/IProjectState";
+import { handleCreateProject } from "../../../utils/ProjectUtil";
 
 const NewProject = () => {
   const queryClient = useQueryClient();
@@ -41,9 +41,11 @@ const NewProject = () => {
 
   return (
     <Flex>
-      <Button type="primary" onClick={handleOpenModal}>
-        New Project
-      </Button>
+      <Flex className="newProjectWrapper">
+        <Button type="primary" onClick={handleOpenModal}>
+          New Project
+        </Button>
+      </Flex>
       <Modal open={isModalOpen} onCancel={handleCloseModal} footer={null}>
         <Form
           form={form}

@@ -1,0 +1,86 @@
+/* ===== Container ===== */
+.newProjectWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+/* ===== New Project Button ===== */
+.newProjectWrapper .ant-btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary),
+    var(--color-accent)
+  );
+  border: none;
+  border-radius: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 0.55rem 1.5rem;
+  transition: filter 0.25s ease;
+}
+
+.newProjectWrapper .ant-btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+/* ===== Modal ===== */
+.ant-modal-content {
+  border-radius: 1rem;
+  background: var(--color-surface);
+  backdrop-filter: blur(0.6rem);
+  padding: 1.8rem 2rem;
+}
+
+.ant-modal-header {
+  border-bottom: none;
+}
+
+.ant-modal-title {
+  color: var(--color-foreground);
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.ant-modal-close {
+  color: var(--color-foreground);
+}
+
+/* ===== Form Inputs ===== */
+.ant-modal .ant-input,
+.ant-modal .ant-input-password input {
+  border-radius: 0.6rem;
+  padding: 0.6rem 0.75rem;
+  color: #000; /* input text black */
+  background-color: #fff; /* input bg white */
+}
+
+.ant-modal .ant-input::placeholder,
+.ant-modal .ant-input-password input::placeholder {
+  color: #555;
+}
+
+/* ===== Form Buttons ===== */
+.ant-modal .ant-btn-primary {
+  height: 2.6rem;
+  border-radius: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary),
+    var(--color-accent)
+  );
+  border: none;
+}
+
+.ant-modal .ant-btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 30rem) {
+  .ant-modal-content {
+    padding: 1.2rem 1.5rem;
+  }
+}

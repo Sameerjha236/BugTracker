@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { Button, Card, Flex, message, Space, Tooltip, Typography } from "antd";
+import { Button, Card, Flex, Space, Tooltip, Typography, message } from "antd";
 import { Content } from "antd/es/layout/layout";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeftOutlined } from "@ant-design/icons";
@@ -9,6 +9,7 @@ import EditableText from "../../Common/EditableField/EditableText";
 import FieldRow from "../../Common/FieldRow";
 import ProjectDeleteModal from "./ProjectDeleteModal";
 import ProjectMemberManager from "./ProjectMemberManager";
+import "./ProjectSetting.css";
 
 const { Title, Text } = Typography;
 
@@ -56,6 +57,7 @@ const ProjectSetting = () => {
             <Button
               type="text"
               icon={<ArrowLeftOutlined />}
+              className="project-back-btn"
               onClick={() => navigate(-1)}
             />
           </Tooltip>
@@ -71,9 +73,7 @@ const ProjectSetting = () => {
               <EditableText
                 value={projectDetail.name}
                 onSave={(newName) =>
-                  updateMutation.mutate({
-                    updatedFields: { name: newName },
-                  })
+                  updateMutation.mutate({ updatedFields: { name: newName } })
                 }
                 renderView={(value) => (
                   <Title level={3} style={{ margin: 0 }}>

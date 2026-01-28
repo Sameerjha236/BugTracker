@@ -1,0 +1,129 @@
+.createIssueModal .ant-modal-content {
+  background-color: var(--color-background);
+  border: 1px solid var(--color-primary-light);
+  border-radius: 1.2rem;
+  padding: 2rem 1.8rem;
+  backdrop-filter: blur(0.6rem);
+  color: var(--color-foreground);
+}
+
+.createIssueModal .ant-modal-close {
+  background: var(--color-background);
+  border-radius: 50%;
+  width: 1.8rem;
+  height: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.createIssueModal .ant-modal-close > .ant-modal-close-x {
+  color: var(--color-foreground);
+  font-size: 1rem;
+}
+
+.createIssueModal .ant-modal-close:hover {
+  background-color: var(--color-primary-light);
+  color: var(--color-foreground);
+}
+
+.createIssueModal .ant-modal-close:hover > .ant-modal-close-x {
+  color: var(--color-foreground);
+}
+
+.createIssueModal .ant-modal-title {
+  color: var(--color-foreground);
+  background-color: var(--color-background) !important;
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.createIssueModal .ant-form-item-label > label {
+  color: var(--color-foreground);
+  font-weight: 600;
+}
+
+/* Inputs, Textarea, Passwords, Select */
+.createIssueModal .ant-input,
+.createIssueModal .ant-input-textarea,
+.createIssueModal .ant-input-password,
+.createIssueModal .ant-select-selector {
+  border-radius: 0.6rem;
+  padding: 0.6rem 0.75rem;
+  color: var(--color-foreground) !important;
+  background-color: var(--color-background) !important;
+  border: 1px solid var(--color-primary-light);
+}
+
+/* Ensure textarea typed text has same color */
+.createIssueModal .ant-input-textarea .ant-input {
+  color: var(--color-foreground) !important;
+}
+
+/* Placeholder text */
+.createIssueModal .ant-input::placeholder,
+.createIssueModal .ant-input-textarea::placeholder,
+.createIssueModal .ant-input-password::placeholder,
+.createIssueModal .ant-select-selection-placeholder {
+  color: var(--color-primary-light) !important;
+}
+
+/* Select dropdown items */
+.createIssueModal .ant-select-selection-item,
+.createIssueModal .ant-select-item-option,
+.createIssueModal .ant-select-item-option-active {
+  color: var(--color-foreground) !important;
+  background-color: var(--color-background) !important;
+}
+
+/* Select dropdown background */
+.createIssueModal .ant-select-dropdown {
+  color: var(--color-foreground) !important;
+  background-color: var(--color-background) !important;
+}
+
+/* Focus state for inputs and selects */
+.createIssueModal .ant-input:focus,
+.createIssueModal .ant-input-textarea:focus,
+.createIssueModal .ant-input-password:focus,
+.createIssueModal .ant-select-focused .ant-select-selector {
+  color: var(--color-foreground) !important;
+  background-color: var(--color-background) !important;
+  border-color: var(--color-primary-light) !important;
+  box-shadow: none !important;
+}
+
+/* Primary Button */
+.createIssueModal .ant-btn-primary {
+  height: 2.6rem;
+  border-radius: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary),
+    var(--color-accent)
+  );
+  border: none;
+  color: var(--color-background);
+}
+
+.createIssueModal .ant-btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+/* Form item spacing */
+.createIssueModal .ant-form-item {
+  margin-bottom: 1.2rem;
+}
+
+/* Responsive styles */
+@media (max-width: 30rem) {
+  .createIssueModal .ant-modal-content {
+    padding: 1.6rem 1.3rem;
+  }
+  .createIssueModal .ant-btn-primary {
+    height: 2.4rem;
+  }
+}

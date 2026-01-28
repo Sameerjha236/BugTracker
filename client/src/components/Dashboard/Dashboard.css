@@ -1,0 +1,42 @@
+.dashboard {
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+  color: var(--color-foreground);
+
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Header */
+.dashboard-header {
+  padding-bottom: 1.2rem;
+  border-bottom: 0.0625rem solid var(--color-primary-light);
+}
+
+.dashboard-title {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--color-foreground) !important;
+}
+
+.dashboard-subtitle {
+  margin: 0.4rem 0 0;
+  font-size: 0.95rem;
+  color: var(--color-primary-light);
+}
+
+/* Grid */
+.dashboard-grid {
+  margin-top: 0.5rem;
+}
+
+/* Empty state (future-proof) */
+.dashboard-empty {
+  text-align: center;
+  padding: 4rem 1rem;
+  color: var(--color-primary-light);
+}

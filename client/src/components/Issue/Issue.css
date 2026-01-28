@@ -1,0 +1,112 @@
+/* ---------------- Issue Layout ---------------- */
+.IssueLayout {
+  padding: 1.5rem;
+  gap: 1.5rem;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+.IssueContent {
+  width: 100%;
+}
+
+/* Space wrapper for vertical layout */
+.IssueSpace {
+  width: 100%;
+  gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Back button */
+.BackButton {
+  padding: 0;
+  color: var(--color-secondary);
+  font-weight: 500;
+}
+
+.BackButton:hover {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+/* Loading / error message container */
+.IssueMessage {
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  color: var(--color-primary-light);
+  font-size: 1rem;
+}
+
+/* Optional: add spacing between header, description, comments */
+.IssueContent > .IssueSpace > * {
+  width: 100%;
+}
+
+/* ---------------- Issue Header ---------------- */
+/* Card wrapper */
+.IssueHeaderCard {
+  width: 100%;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  border: 1px solid var(--color-primary-light);
+  border-radius: 1rem;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Vertical space wrapper */
+.IssueHeaderSpace {
+  width: 100%;
+  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Row for status, priority, and actions */
+.IssueHeaderRow {
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Editable Title */
+.IssueHeaderTitle {
+  margin: 0;
+  color: var(--color-foreground);
+}
+
+/* Ensure EditableOptions and EditableAssignee inherit full theme */
+.IssueHeaderCard .EditableOptionsContainer,
+.IssueHeaderCard .EditableAssigneeContainer {
+  gap: 0.5rem;
+}
+
+/* ---------------- Issue Description ---------------- */
+/* Card wrapper */
+.IssueDescriptionCard {
+  width: 100%;
+  background-color: var(--color-background);
+  color: var(--color-foreground);
+  border: 1px solid var(--color-primary-light);
+  border-radius: 1rem;
+  padding: 1rem 1.5rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+/* Card title */
+.IssueDescriptionCard .ant-card-head-title {
+  color: var(--color-foreground);
+  font-weight: 600;
+}
+
+/* Paragraph inside EditableTextWithButton */
+.IssueDescriptionText {
+  color: var(--color-foreground);
+  margin: 0;
+}

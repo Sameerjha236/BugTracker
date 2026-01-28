@@ -4,10 +4,10 @@ import {
   Button,
   Flex,
   List,
-  message,
   Popconfirm,
   Space,
   Typography,
+  message,
 } from "antd";
 import { DeleteOutlined, UserOutlined } from "@ant-design/icons";
 import type { IUserInfo } from "../../../types/IUserState";
@@ -21,14 +21,11 @@ import AddMemberInline from "./AddMemberInline";
 
 const { Title, Text } = Typography;
 
-type ProjectMemberManagerProps = {
-  projectId: string;
-};
+type ProjectMemberManagerProps = { projectId: string };
 
 const ProjectMemberManager = ({ projectId }: ProjectMemberManagerProps) => {
   const queryClient = useQueryClient();
 
-  /* -------------------- Fetch Members -------------------- */
   const {
     data: projectMembers = [],
     isLoading,
@@ -39,7 +36,6 @@ const ProjectMemberManager = ({ projectId }: ProjectMemberManagerProps) => {
     enabled: !!projectId,
   });
 
-  /* -------------------- Add Member -------------------- */
   const addMemberMutation = useMutation({
     mutationFn: (userId: string) => addProjectMember(projectId, userId),
     onSuccess: () => {
@@ -50,7 +46,6 @@ const ProjectMemberManager = ({ projectId }: ProjectMemberManagerProps) => {
     },
   });
 
-  /* -------------------- Remove Member -------------------- */
   const removeMemberMutation = useMutation({
     mutationFn: (userId: string) => removeProjectMember(projectId, userId),
     onSuccess: () => {
@@ -61,17 +56,13 @@ const ProjectMemberManager = ({ projectId }: ProjectMemberManagerProps) => {
     },
   });
 
-  const handleSearch = async (value: string) => {
-    return searchUsersToAdd(projectId, value);
-  };
+  const handleSearch = async (value: string) =>
+    searchUsersToAdd(projectId, value);
 
-  if (isError) {
-    return <Text type="danger">Failed to load members</Text>;
-  }
+  if (isError) return <Text type="danger">Failed to load members</Text>;
 
   return (
     <Space direction="vertical" size="middle" style={{ width: "100%" }}>
-      {/* Header */}
       <Flex justify="space-between" align="center">
         <Title level={4} style={{ margin: 0 }}>
           Members
@@ -84,7 +75,6 @@ const ProjectMemberManager = ({ projectId }: ProjectMemberManagerProps) => {
         />
       </Flex>
 
-      {/* Members List */}
       <div className="project-members-list">
         <List
           loading={isLoading}

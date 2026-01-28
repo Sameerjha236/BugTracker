@@ -1,0 +1,112 @@
+.EditableOptionsContainer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.EditableOptionsContainer .ant-select {
+  min-width: 120px;
+  width: 100%;
+}
+
+.EditableOptionsContainer .ant-select-selector {
+  background-color: var(--color-background) !important;
+  color: var(--color-foreground) !important;
+  border: 1px solid var(--color-primary-light) !important;
+  border-radius: 0.5rem !important;
+}
+
+.EditableOptionsContainer .ant-select-selector .ant-select-selection-item {
+  color: var(--color-foreground) !important;
+}
+
+.EditableOptionsContainer .ant-select-dropdown {
+  background-color: var(--color-background) !important;
+  color: var(--color-foreground) !important;
+}
+
+.EditableOptionsContainer .ant-select-item-option-active {
+  background-color: var(--color-primary-light) !important;
+  color: var(--color-foreground) !important;
+}
+
+.EditableOptionsContainer .ant-select-item-option-content {
+  color: var(--color-foreground) !important;
+}
+
+.EditableOptionsContainer .ant-tag {
+  cursor: pointer;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  text-transform: uppercase;
+}
+
+.EditableTextContainer .ant-input {
+  width: 100%;
+  background-color: var(--color-background) !important;
+  color: var(--color-foreground) !important;
+  border: 1px solid var(--color-primary-light) !important;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+}
+
+.EditableTextContainer .ant-input::placeholder {
+  color: var(--color-primary-light) !important;
+}
+
+.EditableTextContainer .ant-input:focus {
+  border-color: var(--color-secondary) !important;
+  box-shadow: 0 0 0 2px rgba(0, 173, 181, 0.2) !important;
+}
+
+.EditableTextContainer .ant-typography {
+  cursor: pointer;
+  color: var(--color-foreground);
+}
+
+.EditableTextWithButtonContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.EditableTextWithButtonContainer .ant-input-textarea {
+  width: 100%;
+  background-color: var(--color-background) !important;
+  color: var(--color-foreground) !important;
+  border: 1px solid var(--color-primary-light) !important;
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  resize: vertical;
+}
+
+.EditableTextWithButtonContainer .ant-btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--color-secondary),
+    var(--color-accent)
+  ) !important;
+  color: var(--color-background) !important;
+  border: none !important;
+  border-radius: 0.5rem !important;
+  font-weight: 600;
+}
+
+.EditableTextWithButtonContainer .ant-btn-primary:hover {
+  filter: brightness(1.05);
+}
+
+.EditableTextWithButtonContainer .ant-btn {
+  border-radius: 0.5rem !important;
+}
+
+.EditableTextWithButtonContainer .ant-space {
+  gap: 0.5rem !important;
+}
+
+.EditableTextWithButtonContainer .ant-typography {
+  cursor: pointer;
+  color: var(--color-foreground);
+}

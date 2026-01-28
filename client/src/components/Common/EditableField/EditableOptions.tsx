@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { Select, Space, Tag } from "antd";
+import "./Edit.css";
 
 type EditableOptionsProps = {
   value: string;
@@ -28,7 +29,7 @@ const EditableOptions = ({
   const closeEdit = () => setIsEditing(false);
 
   return (
-    <Space>
+    <Space className="EditableOptionsContainer">
       {isEditing ? (
         <Select
           ref={selectRef}

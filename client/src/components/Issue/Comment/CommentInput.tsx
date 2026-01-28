@@ -2,6 +2,7 @@ import { Form, Input, Button } from "antd";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postCommentToIssue } from "../../../utils/CommentUtil";
 import { useAppSelector } from "../../../hooks/storeHook";
+import "./Comments.css";
 
 const { TextArea } = Input;
 
@@ -28,7 +29,6 @@ const CommentInput = ({ issueId }: CommentInputProps) => {
       queryClient.invalidateQueries({
         queryKey: ["comments", issueId],
       });
-
       form.resetFields();
     },
   });
@@ -47,11 +47,17 @@ const CommentInput = ({ issueId }: CommentInputProps) => {
           rows={3}
           placeholder="Add a comment..."
           disabled={isPending}
+          className="CommentInputArea"
         />
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" loading={isPending}>
+        <Button
+          type="primary"
+          htmlType="submit"
+          loading={isPending}
+          className="CommentSubmitButton"
+        >
           Post Comment
         </Button>
       </Form.Item>
