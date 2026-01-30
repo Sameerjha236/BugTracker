@@ -17,7 +17,7 @@ const Navbar = () => {
 
       <div className="navbar-inner">
         <Title level={3} className="navbar-logo">
-          <Link to="/">BugTracker</Link>
+          <Link to="/">Zyrel</Link>
         </Title>
 
         <Flex align="center" className="navbar-actions">

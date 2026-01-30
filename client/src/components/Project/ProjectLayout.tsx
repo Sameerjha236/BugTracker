@@ -1,13 +1,14 @@
 import { lazy, Suspense } from "react";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { getIssueForProject } from "../../utils/IssueUtil";
-import { Col, Row, Typography, Spin } from "antd";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getIssueForProject, updateIssue } from "../../utils/IssueUtil";
+import { message, Row, Spin } from "antd";
 import CardLoader from "../Common/CardLoader";
-import type { IIssueSummary } from "../../types/IIssueState";
+import type { ICreateIssue, IIssueSummary } from "../../types/IIssueState";
 import "./Project.css";
+import { DndContext } from "@dnd-kit/core";
 
-const IssueCard = lazy(() => import("../Issue/IssueCard"));
+const StatusColumn = lazy(() => import("../Issue/StatusColumn"));
 const ProjectHeader = lazy(() => import("./ProjectHeader"));
 
 const statuses: IIssueSummary["status"][] = [
@@ -20,6 +21,7 @@ const statuses: IIssueSummary["status"][] = [
 
 const ProjectLayout = () => {
   const { id: projectId } = useParams<{ id: string }>();
+  const queryClient = useQueryClient();
 
   const {
     data: issues = [],
@@ -29,6 +31,22 @@ const ProjectLayout = () => {
     queryKey: ["project", "issues", projectId],
     queryFn: () => getIssueForProject(projectId || ""),
     enabled: !!projectId,
+  });
+
+  const { mutate } = useMutation({
+    mutationFn: ({
+      issueId,
+      updatedFields,
+    }: {
+      issueId: string;
+      updatedFields: Partial<ICreateIssue>;
+    }) => updateIssue(issueId, updatedFields),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ["project", "issues", projectId],
+      });
+      message.success("Issue updated");
+    },
   });
 
   if (isLoading) {
@@ -55,35 +73,45 @@ const ProjectLayout = () => {
     );
   });
 
-  return (
-    <section className="project-layout">
-      <Suspense fallback={<Spin tip="Loading Project Header..." />}>
-        <ProjectHeader projectId={projectId || ""} />
-      </Suspense>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleDragEnd = (event: any) => {
+    const issueId = event.active.id;
+    const updatedStatus = event.over.id;
 
-      <Row gutter={16} className="kanban-board">
-        {statuses.map((status) => (
-          <Col xs={24} sm={12} md={8} lg={4} key={status}>
-            <div className="kanban-column">
-              <Typography.Title level={5} className="kanban-title">
-                {status.toUpperCase()} ({issuesByStatus[status].length})
-              </Typography.Title>
-              <div className="kanban-issues">
-                {issuesByStatus[status].length === 0 ? (
-                  <div className="empty-column">No issues</div>
-                ) : (
-                  issuesByStatus[status].map((issue) => (
-                    <Suspense fallback={<CardLoader />} key={issue.issueId}>
-                      <IssueCard {...issue} />
-                    </Suspense>
-                  ))
-                )}
-              </div>
-            </div>
-          </Col>
-        ))}
-      </Row>
-    </section>
+    console.log("Dragged issue:", issueId, "to status:", updatedStatus);
+    mutate({
+      issueId,
+      updatedFields: { status: updatedStatus },
+    });
+  };
+
+  return (
+    <>
+      <DndContext onDragEnd={handleDragEnd}>
+        <section className="project-layout">
+          <Suspense fallback={<Spin tip="Loading Project Header..." />}>
+            <ProjectHeader projectId={projectId || ""} />
+          </Suspense>
+          <Row gutter={16} className="kanban-board">
+            {statuses.map((status) => {
+              const filteredIssues = issues.filter(
+                (issue: IIssueSummary) => issue.status === status,
+              );
+
+              return (
+                <Suspense fallback={<Spin tip="Loading Issues..." />}>
+                  <StatusColumn
+                    key={status}
+                    status={status}
+                    issues={filteredIssues}
+                  />
+                </Suspense>
+              );
+            })}
+          </Row>
+        </section>
+      </DndContext>
+    </>
   );
 };
 
