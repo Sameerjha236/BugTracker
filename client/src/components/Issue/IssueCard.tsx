@@ -34,7 +34,7 @@ const IssueCard = (issue: IIssueSummary) => {
       onClick={() => navigate(`/issue/${issue.issueId}`)}
     >
       {/* 🔹 Top bar */}
-      <Flex justify="flex-end" className="IssueCardTop">
+      <Flex justify="flex-end">
         <Button
           size="small"
           className="drag-handle"

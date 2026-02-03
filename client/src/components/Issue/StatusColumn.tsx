@@ -1,4 +1,4 @@
-import { Col, Typography } from "antd";
+import { Typography } from "antd";
 import { Suspense } from "react";
 import CardLoader from "../Common/CardLoader";
 import IssueCard from "./IssueCard";
@@ -20,25 +20,23 @@ const StatusColumn = ({ status, issues }: StatusColumnProps) => {
   };
 
   return (
-    <Col xs={24} sm={12} md={8} lg={4}>
-      <div ref={setNodeRef} style={style} className="kanban-column">
-        <Typography.Title level={5} className="kanban-title">
-          {status.toUpperCase()} ({issues.length})
-        </Typography.Title>
+    <div ref={setNodeRef} style={style} className="kanban-column">
+      <Typography.Title level={5} className="kanban-title">
+        {status.toUpperCase()} ({issues.length})
+      </Typography.Title>
 
-        <div className="kanban-issues">
-          {issues.length === 0 ? (
-            <div className="empty-column">No issues</div>
-          ) : (
-            issues.map((issue) => (
-              <Suspense fallback={<CardLoader />} key={issue.issueId}>
-                <IssueCard {...issue} />
-              </Suspense>
-            ))
-          )}
-        </div>
+      <div className="kanban-issues">
+        {issues.length === 0 ? (
+          <div className="empty-column">No issues</div>
+        ) : (
+          issues.map((issue) => (
+            <Suspense fallback={<CardLoader />} key={issue.issueId}>
+              <IssueCard {...issue} />
+            </Suspense>
+          ))
+        )}
       </div>
-    </Col>
+    </div>
   );
 };
 

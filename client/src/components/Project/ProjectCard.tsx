@@ -10,7 +10,7 @@ const ProjectCard = (project: IProjectState) => {
       <Card hoverable className="project-card">
         <Flex vertical gap={6}>
           <Title level={5} style={{ margin: 0 }}>
-            {project.name} yo
+            {project.name}
           </Title>
         </Flex>
       </Card>

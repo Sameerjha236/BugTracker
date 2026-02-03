@@ -268,19 +268,21 @@
 }
 
 .kanban-board {
+  color: var(--color-foreground) !important;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
   margin-top: 20px;
-  display: flex;
   gap: 16px;
 }
 
 .kanban-column {
-  background: #f5f5f5;
+  border: 2px solid var(--color-primary-light);
   padding: 12px;
   border-radius: 8px;
-  min-height: 200px;
 }
 
 .kanban-title {
+  color: var(--color-foreground) !important;
   text-align: center;
   margin-bottom: 12px;
 }
