@@ -1,0 +1,38 @@
+# -------- STAGE 1: BUILD STAGE --------
+# Use Maven + Java 21 image to build the Spring Boot app
+FROM maven:3.9.6-eclipse-temurin-21 AS build
+
+# Set working directory inside container
+WORKDIR /app
+
+# Copy only pom.xml first (for dependency caching)
+COPY pom.xml ./
+
+# Download all dependencies (this layer gets cached if pom.xml doesn't change)
+RUN mvn dependency:go-offline -B
+
+# Copy the actual source code
+COPY src ./src
+
+# Build the application and create the jar file
+# -DskipTests makes build faster (good for deployment)
+RUN mvn clean package -DskipTests
+
+
+
+# -------- STAGE 2: RUNTIME STAGE --------
+# Use lightweight Java 21 image (no Maven needed here)
+FROM eclipse-temurin:21-jdk-jammy
+
+# Set working directory
+WORKDIR /app
+
+# Copy only the generated jar file from build stage
+# We rename it to app.jar so version changes don't matter
+COPY --from=build /app/target/*.jar app.jar
+
+# Tell Docker that app runs on port 8080
+EXPOSE 8080
+
+# Command to run when container starts
+ENTRYPOINT ["java", "-jar", "app.jar"]

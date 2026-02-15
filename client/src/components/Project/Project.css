@@ -298,3 +298,23 @@
   color: #888;
   padding: 20px 0;
 }
+
+@media (max-width: 64rem) {
+  /* 1024px */
+  .kanban-board {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 48rem) {
+  .kanban-board {
+    grid-auto-flow: column;
+    grid-template-columns: repeat(5, minmax(280px, 1fr));
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .kanban-column {
+    min-height: 70vh;
+  }
+}

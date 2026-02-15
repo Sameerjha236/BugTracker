@@ -26,7 +26,7 @@ const ProjectHeader = ({ projectId }: ProjectHeaderProps) => {
   });
 
   if (isLoading) {
-    return <Card loading style={{ width: "80%" }} />;
+    return <Card loading style={{ width: "100%" }} />;
   }
 
   if (isError) return <Flex>Something went wrong</Flex>;

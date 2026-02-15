@@ -17,7 +17,7 @@ const RegisterForm = ({ setLogin }: RegisterFormProps) => {
   const { message } = App.useApp();
 
   const onFinish: FormProps<RegisterFormFields>["onFinish"] = async (
-    values
+    values,
   ) => {
     try {
       await dispatch(registerUserThunk(values)).unwrap();
@@ -59,6 +59,25 @@ const RegisterForm = ({ setLogin }: RegisterFormProps) => {
           label="Password"
           name="password"
           rules={[{ required: true }]}
+        >
+          <Input.Password size="large" />
+        </Form.Item>
+
+        <Form.Item
+          label="Confirm Password"
+          name="confirmPassword"
+          dependencies={["password"]} // ensures it watches the 'password' field
+          rules={[
+            { required: true, message: "Please confirm your password" },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue("password") === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error("Passwords do not match"));
+              },
+            }),
+          ]}
         >
           <Input.Password size="large" />
         </Form.Item>

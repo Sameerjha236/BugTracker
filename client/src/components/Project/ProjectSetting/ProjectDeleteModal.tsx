@@ -41,7 +41,7 @@ const ProjectDeleteModal = () => {
           danger
           disabled={isDisabled}
           onClick={() => setOpenDeleteModal(true)}
-          className="project-delete-btn"
+          className={`project-delete-btn ${isDisabled ? "disabled" : ""}`}
         >
           Delete Project
         </Button>
